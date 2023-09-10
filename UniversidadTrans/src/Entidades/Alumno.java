@@ -10,23 +10,33 @@ public class Alumno {
     private String nombre;
     private int dni;
     private LocalDate fechaNac;
-
+    private boolean estado;
     public Alumno() {
     }
 
-    public Alumno(String apellido, String nombre, int dni, LocalDate fechaNac) {
+    public Alumno(String apellido, String nombre, int dni, LocalDate fechaNac, boolean estado) {
         this.apellido = apellido;
         this.nombre = nombre;
         this.dni = dni;
         this.fechaNac = fechaNac;
+        this.estado = estado;
     }
 
-    public Alumno(int id, String apellido, String nombre, int dni, LocalDate fechaNac) {
+    public Alumno(int id, String apellido, String nombre, int dni, LocalDate fechaNac, boolean estado) {
         this.id = id;
         this.apellido = apellido;
         this.nombre = nombre;
         this.dni = dni;
         this.fechaNac = fechaNac;
+        this.estado = estado;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
     public int getId() {
