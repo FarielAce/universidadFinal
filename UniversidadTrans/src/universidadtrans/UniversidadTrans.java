@@ -23,11 +23,9 @@ public class UniversidadTrans {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-        // TODO code application logic here
+   
         
-        
-       String SQL = "SELECT\n" +
+    /*   String SQL = "SELECT\n" +
 "    a.idAlumno,\n" +
 "    a.nombre AS nombre_alumno,\n" +
 "    a.apellido AS apellido_alumno,\n" +
@@ -57,6 +55,11 @@ public class UniversidadTrans {
         } finally {
         }
 
+
+       InscripcionData inscribe = new InscripcionData();
+       
+       inscribe.obtenerInscripciones();
+*/
     }
     
 }

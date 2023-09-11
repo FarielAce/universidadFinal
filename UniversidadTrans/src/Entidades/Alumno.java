@@ -32,6 +32,14 @@ public class Alumno {
         this.estado = estado;
     }
 
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
     public int getId() {
         return id;
     }
@@ -71,16 +79,7 @@ public class Alumno {
     public void setFechaNac(LocalDate fechaNac) {
         this.fechaNac = fechaNac;
     }
-
-    public boolean isEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-
-    
+        
     @Override
     public String toString() {
         return "Alumno{" + "id=" + id + ", apellido=" + apellido + ", nombre=" + nombre + ", dni=" + dni + ", fechaNac=" + fechaNac + '}';
