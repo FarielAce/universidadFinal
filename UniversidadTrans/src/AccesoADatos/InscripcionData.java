@@ -76,7 +76,6 @@ public class InscripcionData {
                 nuevo = new Alumno(resultado.getInt("idAlumno"), resultado.getString("apellido_alumno"), resultado.getString("nombre_alumno"), resultado.getInt("dni"), resultado.getDate("fechaNac").toLocalDate(), resultado.getBoolean("estado_alumnos"));
                 mate = new Materia(resultado.getInt("idMateria"), resultado.getString("nombre_materias"), resultado.getInt("anio"), resultado.getBoolean("estado_materias"));
                 encontrada = new Inscripcion(resultado.getInt("idInscripciones"), nuevo, mate, resultado.getDouble("nota"));
-                System.out.println(encontrada.toString() + "/n" + nuevo.toString() + "/n" + mate.toString());
                 inscripciones.add(encontrada);
             }
 
@@ -97,20 +96,34 @@ public class InscripcionData {
 
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int id) {
         List<Inscripcion> lista = new ArrayList<>();
-        SQL = "SELECT inscripciones.idMateria, nombre, anio "
-                + "FROM inscripciones, materias "
-                + "WHERE inscripciones.idMateria = materias.idMateria AND inscripciones.idAlumno = ?";
+        SQL = "SELECT i.idMateria, i.idInscripciones, i.nota, m.nombre, m.anio,m.idMateria, a.idAlumno, a.nombre AS nombre_alumno, a.apellido, a.dni, a.fechaNac, a.estado\n"
+                + "FROM inscripciones AS i, materias AS m, alumnos AS a \n"
+                + "WHERE i.idMateria = m.idMateria AND i.idAlumno = ? AND a.idAlumno = ? AND m.estado = 1";
         Inscripcion nueva;
+        Alumno nuevo;
+        Materia mate;
+
         try {
             ps = Conexion.getConexion().prepareStatement(SQL);
             ps.setInt(1, id);
+            ps.setInt(2, id);
             resultado = ps.executeQuery();
             while (resultado.next()) {
-
+                nuevo = new Alumno(resultado.getInt("idAlumno"), resultado.getString("apellido_alumno"), resultado.getString("nombre_alumno"), resultado.getInt("dni"), resultado.getDate("fechaNac").toLocalDate(), resultado.getBoolean("estado_alumnos"));
+                mate = new Materia(resultado.getInt("idMateria"), resultado.getString("nombre"), resultado.getInt("anio"), true);
+                nueva = new Inscripcion(resultado.getInt("idInscripciones"), nuevo, mate, resultado.getDouble("nota"));
+                lista.add(nueva);
             }
         } catch (SQLException ex) {
             Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+            try {
+                resultado.close();
+                ps.close();
+                Conexion.getConexion().close();
+            } catch (SQLException ex) {
+                Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return lista;
 
@@ -118,36 +131,138 @@ public class InscripcionData {
 
     public List<Materia> obtenerMateriasCursadas(int id) {
         List<Materia> lista = new ArrayList<>();
-        SQL = "SELECT inscripciones.idMateria, nombre, anio "
-                + "FROM inscripciones, materias "
-                + "WHERE inscripciones.idMateria = materias.idMateria AND inscripciones.idAlumno = ?";
+        SQL = "SELECT m.idMateria, m.nombre, m.anio, m.estado "
+                + "FROM materias AS m "
+                + "INNER JOIN inscripciones AS i ON m.idMateria = i.idMateria "
+                + "WHERE i.idAlumno = ? AND m.estado = 1;";
         Materia nueva;
         try {
             ps = Conexion.getConexion().prepareStatement(SQL);
             ps.setInt(1, id);
             resultado = ps.executeQuery();
             while (resultado.next()) {
-                nueva = new Materia(resultado.getInt("idMateria"), resultado.getString("nombre"), resultado.getInt("anio"), resultado.getBoolean("estado"));
+                nueva = new Materia(resultado.getInt("idMateria"), resultado.getString("nombre"), resultado.getInt("anio"), true);
                 lista.add(nueva);
                 System.out.println(nueva.toString());
             }
         } catch (SQLException ex) {
             Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+            try {
+                resultado.close();
+                ps.close();
+                Conexion.getConexion().close();
+            } catch (SQLException ex) {
+                Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return lista;
     }
 
     public List<Materia> obtenerMatereiasNOCursadas(int id) {
-    }
+        List<Materia> lista = new ArrayList<>();
+        SQL = "SELECT m.idMateria, m.nombre, m.anio, m.estado"
+                + "FROM materias AS m"
+                + "LEFT JOIN inscripciones AS i ON m.idMateria = i.idMateria AND i.idAlumno = ? "
+                + "WHERE i.idInscripciones IS NULL AND m.estado = 1;";
+        Materia nueva;
+        try {
+            ps = Conexion.getConexion().prepareStatement(SQL);
+            ps.setInt(1, id);
+            resultado = ps.executeQuery();
+            while (resultado.next()) {
+                nueva = new Materia(resultado.getInt("idMateria"), resultado.getString("nombre"), resultado.getInt("anio"), true);
+                lista.add(nueva);
+                System.out.println(nueva.toString());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                resultado.close();
+                ps.close();
+                Conexion.getConexion().close();
+            } catch (SQLException ex) {
+                Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return lista;
 
-    public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria) {
-    }
-
-    public void actualizarNota(int idAlumno, int IdMateria, double nota) {
     }
 
     public List<Alumno> obtenerAlumnosXMateria(int idMateria) {
+        SQL = "SELECT * FROM alumnos "
+                + "INNER JOIN inscripciones AS i ON alumnos.idAlumno = i.idAlumno "
+                + "WHERE i.idMateria = ? AND alumnos.estado = 1;";
+        ArrayList alumnos = new ArrayList<>();
+        Alumno encontrado;
+
+        try {
+            ps = Conexion.getConexion().prepareStatement(SQL);
+            ps.setInt(1, idMateria);
+            resultado = ps.executeQuery();
+            while (resultado.next()) {
+
+                encontrado = new Alumno(resultado.getInt("idAlumno"), resultado.getString("apellido"), resultado.getString("nombre"), resultado.getInt("dni"), resultado.getDate("fechaNac").toLocalDate(), true);
+                alumnos.add(encontrado);
+                System.out.println(encontrado.toString());
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                resultado.close();
+                ps.close();
+                Conexion.getConexion().close();
+            } catch (SQLException ex) {
+                Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return alumnos;
+    }
+
+    public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria) {
+        SQL = "DELETE FROM inscripciones WHERE idMateria = ? AND idAlumno = ?;";
+        try {
+            ps = Conexion.getConexion().prepareStatement(SQL);
+            ps.setInt(1, idMateria);
+            ps.setInt(2, idAlumno);
+            int estado = ps.executeUpdate();
+            if (estado > 0) {
+                JOptionPane.showMessageDialog(null, "Borrado Correctamente");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                resultado.close();
+                ps.close();
+                Conexion.getConexion().close();
+            } catch (SQLException ex) {
+                Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public void actualizarNota(int idAlumno, int idMateria, double nota) {
+        SQL = "UPDATE inscripciones SET nota = ? "
+            + "WHERE idMateria = ? AND idAlumno = ?;";
+
+        try {
+            ps = Conexion.getConexion().prepareStatement(SQL);
+            ps.setDouble(1, nota);
+            ps.setInt(2, idMateria);
+            ps.setInt(3, idAlumno);
+            int estado = ps.executeUpdate();
+            if (estado>0) {
+                JOptionPane.showMessageDialog(null, "Actualizacion Correcta");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+        }
+
     }
 
 }
