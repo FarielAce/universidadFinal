@@ -111,18 +111,22 @@ public static AlumnoData controlAlu = new AlumnoData();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmNotasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jmNotasActionPerformed
+Escritorio.removeAll();
+        Escritorio.repaint();
+        Notas calific = new Notas();
+        calific.setVisible(true);
+        Escritorio.add(calific);
+        Escritorio.moveToFront(calific);    }//GEN-LAST:event_jmNotasActionPerformed
 
     private void jmGestionAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmGestionAlumnosActionPerformed
-        Escritorio.removeAll();
+    /*    Escritorio.removeAll();
         Escritorio.repaint();
         GestionAlumnos alu = new GestionAlumnos();
         alu.setVisible(true);
         Escritorio.add(alu);
         Escritorio.moveToFront(alu);
         
-        
+        */
     }//GEN-LAST:event_jmGestionAlumnosActionPerformed
 
     private void jmAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmAlumnoActionPerformed
