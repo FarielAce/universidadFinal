@@ -1,7 +1,6 @@
 package AccesoADatos;
 
 import Entidades.*;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,19 +62,20 @@ public class InscripcionData {
         Alumno nuevo;
         Materia mate;
 
-        SQL = "SELECT a.idAlumno, a.nombre AS nombre_alumno, a.apellido AS apellido_alumno, a.dni, a.fechaNac, a.estado AS estado_alumnos,\n"
-                + "m.idMateria, m.nombre AS nombre_materias, m.anio, m.estado AS estado_materias, i.idInscripciones, i.nota\n"
-                + "FROM alumnos AS a\n"
-                + "INNER JOIN inscripciones AS i ON a.idAlumno = i.idAlumno\n"
+        SQL = "SELECT a.idAlumno, a.nombre AS nombre_alumno, a.apellido AS apellido_alumno, a.dni, a.fechaNac, a.estado AS estado_alumnos, "
+                + "m.idMateria, m.nombre AS nombre_materias, m.anio, m.estado AS estado_materias, i.idInscripciones, i.nota "
+                + "FROM alumnos AS a "
+                + "INNER JOIN inscripciones AS i ON a.idAlumno = i.idAlumno "
                 + "INNER JOIN materias AS m ON i.idMateria = m.idMateria;";
         try {
             ps = Conexion.getConexion().prepareStatement(SQL);
             resultado = ps.executeQuery();
             while (resultado.next()) {
-                //(, , , resultado.getInt("dni"), , )
+                
                 nuevo = new Alumno(resultado.getInt("idAlumno"), resultado.getString("apellido_alumno"), resultado.getString("nombre_alumno"), resultado.getInt("dni"), resultado.getDate("fechaNac").toLocalDate(), resultado.getBoolean("estado_alumnos"));
                 mate = new Materia(resultado.getInt("idMateria"), resultado.getString("nombre_materias"), resultado.getInt("anio"), resultado.getBoolean("estado_materias"));
                 encontrada = new Inscripcion(resultado.getInt("idInscripciones"), nuevo, mate, resultado.getDouble("nota"));
+                System.out.println("TEST"+ nuevo.toString() + "/n" + mate.toString() +"/n" + encontrada.toString());
                 inscripciones.add(encontrada);
             }
 
@@ -96,7 +96,7 @@ public class InscripcionData {
 
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int id) {
         List<Inscripcion> lista = new ArrayList<>();
-        SQL = "SELECT i.idMateria, i.idInscripciones, i.nota, m.nombre, m.anio,m.idMateria, a.idAlumno, a.nombre AS nombre_alumno, a.apellido, a.dni, a.fechaNac, a.estado\n"
+        SQL = "SELECT i.idMateria, i.idInscripciones, i.nota, m.nombre, m.anio,m.idMateria, a.idAlumno, a.nombre AS nombre_alumno, a.apellido, a.dni, a.fechaNac, a.estado "
                 + "FROM inscripciones AS i, materias AS m, alumnos AS a \n"
                 + "WHERE i.idMateria = m.idMateria AND i.idAlumno = ? AND a.idAlumno = ? AND m.estado = 1";
         Inscripcion nueva;
@@ -109,7 +109,7 @@ public class InscripcionData {
             ps.setInt(2, id);
             resultado = ps.executeQuery();
             while (resultado.next()) {
-                nuevo = new Alumno(resultado.getInt("idAlumno"), resultado.getString("apellido_alumno"), resultado.getString("nombre_alumno"), resultado.getInt("dni"), resultado.getDate("fechaNac").toLocalDate(), resultado.getBoolean("estado_alumnos"));
+                nuevo = new Alumno(resultado.getInt("idAlumno"), resultado.getString("apellido"), resultado.getString("nombre_alumno"), resultado.getInt("dni"), resultado.getDate("fechaNac").toLocalDate(), resultado.getBoolean("estado"));
                 mate = new Materia(resultado.getInt("idMateria"), resultado.getString("nombre"), resultado.getInt("anio"), true);
                 nueva = new Inscripcion(resultado.getInt("idInscripciones"), nuevo, mate, resultado.getDouble("nota"));
                 lista.add(nueva);
@@ -161,10 +161,10 @@ public class InscripcionData {
 
     public List<Materia> obtenerMatereiasNOCursadas(int id) {
         List<Materia> lista = new ArrayList<>();
-        SQL = "SELECT m.idMateria, m.nombre, m.anio, m.estado"
-                + "FROM materias AS m"
-                + "LEFT JOIN inscripciones AS i ON m.idMateria = i.idMateria AND i.idAlumno = ? "
-                + "WHERE i.idInscripciones IS NULL AND m.estado = 1;";
+        SQL = "SELECT m.idMateria, m.nombre, m.anio, m.estado "
+            + "FROM materias AS m "
+            + "LEFT JOIN inscripciones AS i ON m.idMateria = i.idMateria AND i.idAlumno = ? "
+            + "WHERE i.idInscripciones IS NULL AND m.estado = 1;";
         Materia nueva;
         try {
             ps = Conexion.getConexion().prepareStatement(SQL);
