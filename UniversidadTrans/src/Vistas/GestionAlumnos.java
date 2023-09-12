@@ -5,7 +5,8 @@
 package Vistas;
 
 import Entidades.Alumno;
-import java.sql.Date;
+
+import java.util.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import javax.swing.ImageIcon;
@@ -16,7 +17,9 @@ import javax.swing.JOptionPane;
  * @author ferna
  */
 public class GestionAlumnos extends javax.swing.JInternalFrame {
-Alumno buscado; //declaro el alumno buscado como variable global. para poder utilizarla en el boton eliminar.-
+    
+    Alumno buscado; //declaro el alumno buscado como variable global. para poder utilizarla en el boton eliminar.-
+
     /**
      * Creates new form GestionAlumno
      */
@@ -203,78 +206,81 @@ Alumno buscado; //declaro el alumno buscado como variable global. para poder uti
                 jtNombre.setText(buscado.getNombre());
                 jtApellido.setText(buscado.getApellido());
                 jrEstado.setSelected(buscado.isEstado());
-                jdFechaNac.setDate(Date.valueOf(buscado.getFechaNac()));
+                jdFechaNac.setDate(java.sql.Date.valueOf(buscado.getFechaNac()));
                 blkEliminar(true);
             }
             
         }
-        
+
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
         limpiarJt();
         bloquear(true);
         blkGuardar(true);
-        
+
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-        if (jtDocumento.getText().isEmpty() || jtApellido.getText().isEmpty() || jtNombre.getText().isEmpty() || jdFechaNac.getDate().equals(null)) {
+        Date fecha = jdFechaNac.getDate();
+        if (jtDocumento.getText().isEmpty() || jtApellido.getText().isEmpty() || jtNombre.getText().isEmpty() || fecha == null) {
             JOptionPane.showMessageDialog(null, "todos los datos son obligatorios");
         } else {
             Object[] opciones = {"SI", "NO", "CANCELAR"};
-               
-        int opcion =JOptionPane.showOptionDialog(null,
-                "¿Todos los datos son Correctos?", 
-                "Confirmacion",
-                JOptionPane.DEFAULT_OPTION, 
-                JOptionPane.YES_NO_CANCEL_OPTION, 
-                null, opciones, opciones[2]);
+            
+            int opcion = JOptionPane.showOptionDialog(null,
+                    "¿Todos los datos son Correctos?",
+                    "Confirmacion",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    null, opciones, opciones[2]);
             jrEstado.setSelected(true);
             jrEstado.setEnabled(false);
+            
             if (opcion == JOptionPane.YES_OPTION) {
-                 int dni = Integer.parseInt(jtDocumento.getText());
-            String nombre = jtNombre.getText();
-            String apellido = jtApellido.getText();
-            LocalDate fechaNac = jdFechaNac.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            System.out.println(dni + " " + nombre + apellido + fechaNac );
-            Alumno nuevo = new Alumno(apellido, nombre, dni, fechaNac, true);
-            Principal.controlAlu.GuardarAlum(nuevo);
-            }else if (opcion==JOptionPane.NO_OPTION) {
+                int dni = Integer.parseInt(jtDocumento.getText());
+                String nombre = jtNombre.getText();
+                String apellido = jtApellido.getText();
+                LocalDate fechaNac = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                System.out.println(dni + " " + nombre + apellido + fechaNac);
+                Alumno nuevo = new Alumno(apellido, nombre, dni, fechaNac, true);
+                Principal.controlAlu.GuardarAlum(nuevo);
+                limpiarJt();
+            } else if (opcion == JOptionPane.NO_OPTION) {
                 
-            }else if (opcion==JOptionPane.CANCEL_OPTION) {
-                 limpiarJt();
-            bloquear(false);
-            blkGuardar(false);
+            } else if (opcion == JOptionPane.CANCEL_OPTION) {
+                limpiarJt();
+                bloquear(false);
+                blkGuardar(false);
             }
-           
+            
         }
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
         dispose();
-        
+
     }//GEN-LAST:event_jbSalirActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
-  
+        
         Object[] opciones = {"SI", "NO", "CANCELAR"};
-               
-        int opcion =JOptionPane.showOptionDialog(null,
-                "¿Esta seguro de eliminar el alumno?", 
+        
+        int opcion = JOptionPane.showOptionDialog(null,
+                "¿Esta seguro de eliminar el alumno?",
                 "Confirmacion",
-                JOptionPane.DEFAULT_OPTION, 
-                JOptionPane.YES_NO_CANCEL_OPTION, 
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.YES_NO_CANCEL_OPTION,
                 null, opciones, opciones[2]);
         
-        if (opcion ==JOptionPane.YES_OPTION ) {
+        if (opcion == JOptionPane.YES_OPTION) {
             Principal.controlAlu.eliminarAlumno(buscado.getId());
             limpiarJt();
             blkEliminar(false);
             
-        }else if (opcion == JOptionPane.NO_OPTION) {
+        } else if (opcion == JOptionPane.NO_OPTION) {
             
-        }else if (opcion==JOptionPane.CANCEL_OPTION) {
+        } else if (opcion == JOptionPane.CANCEL_OPTION) {
             limpiarJt();
             bloquear(false);
             blkEliminar(false);
@@ -299,26 +305,27 @@ Alumno buscado; //declaro el alumno buscado como variable global. para poder uti
     private javax.swing.JTextField jtDocumento;
     private javax.swing.JTextField jtNombre;
     // End of variables declaration//GEN-END:variables
-public void bloquear(boolean estado) {
+    public void bloquear(boolean estado) {
         jtApellido.setEnabled(estado);
         jtNombre.setEnabled(estado);
         jrEstado.setEnabled(estado);
         jdFechaNac.setEnabled(estado);
     }
-
+    
     public void blkEliminar(boolean estado) {
         
         jbEliminar.setEnabled(estado);
     }
-
+    
     public void blkGuardar(boolean estado) {
         jbGuardar.setEnabled(estado);
     }
-
+    
     public void limpiarJt() {
         jtApellido.setText("");
         jtNombre.setText("");
         jtDocumento.setText("");
+        jdFechaNac.setDate(null);
         
     }
 }
