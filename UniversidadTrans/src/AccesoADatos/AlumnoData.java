@@ -18,7 +18,8 @@ import javax.swing.JOptionPane;
 public class AlumnoData {
     private PreparedStatement ps=null;
     private ResultSet rs=null;
-    
+    public AlumnoData(){
+    }
     public void GuardarAlum(Alumno alumno){
          
         String sql = "INSERT INTO alumno (dni, apellido, nombre, fechaNacimiento, estado)"
