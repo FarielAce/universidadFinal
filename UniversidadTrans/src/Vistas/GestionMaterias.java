@@ -1,7 +1,6 @@
 
 package Vistas;
 
-
 import Entidades.Materia;
 import javax.swing.JOptionPane;
 
@@ -174,6 +173,7 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         // TODO add your handling code here:
+
         if (jTCodigo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "No ingresó el código de la materia.");
         } else {
@@ -190,6 +190,7 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
             }
             
         }
+              
         
     }//GEN-LAST:event_jBBuscarActionPerformed
 
