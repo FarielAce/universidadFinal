@@ -5,20 +5,21 @@
  */
 package universidadtrans;
 
-import AccesoADatos.*;
-import Entidades.*;
+import Vistas.Principal;
 
 /**
  *
  * @author Test
  */
 public class UniversidadTrans {
-public static InscripcionData controlInscripcion = new InscripcionData();
-   
+
 
 public static void main(String[] args) {
      
-     
+     Principal mainFrame = new Principal();
+        
+        mainFrame.setVisible(true);
+        mainFrame.setLocationRelativeTo(null);
   
     }
     
