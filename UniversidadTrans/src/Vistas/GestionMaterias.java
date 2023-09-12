@@ -1,13 +1,14 @@
 
 package Vistas;
 
-import AccesoADatos.MateriaData;
+
+import Entidades.Materia;
+import javax.swing.JOptionPane;
 
 public class GestionMaterias extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form GestionMaterias
-     */
+    Materia busco;
+    
     public GestionMaterias() {
         initComponents();
     }
@@ -168,14 +169,27 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
 
     private void jTCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTCodigoActionPerformed
         // TODO add your handling code here:
-        int ncodigo = Integer.parseInt(jTCodigo.getText());
+        
     }//GEN-LAST:event_jTCodigoActionPerformed
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         // TODO add your handling code here:
-        int ncodigo = Integer.parseInt(jTCodigo.getText());
-        buscarAlumno(ncodigo);
-        
+        if (jTCodigo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No ingresó el código de la materia.");
+        } else {
+            int cod = Integer.parseInt(jTCodigo.getText());
+            busco = Principal.controlAlu.buscarAlumnoPorDni(dni);
+            if (buscado == null) {
+                JOptionPane.showMessageDialog(null, "No se encuentra el alumno");
+            } else {
+                jtNombre.setText(buscado.getNombre());
+                jtApellido.setText(buscado.getApellido());
+                jrEstado.setSelected(buscado.isEstado());
+                jdFechaNac.setDate(java.sql.Date.valueOf(buscado.getFechaNac()));
+                blkEliminar(true);
+            }
+            
+        }
         
     }//GEN-LAST:event_jBBuscarActionPerformed
 
