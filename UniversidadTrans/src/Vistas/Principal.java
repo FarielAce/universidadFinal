@@ -1,10 +1,11 @@
-
 package Vistas;
+
 import AccesoADatos.*;
 
 public class Principal extends javax.swing.JFrame {
-public static AlumnoData controlAlu = new AlumnoData();
-    
+
+    public static AlumnoData controlAlu = new AlumnoData();
+
     public Principal() {
         setTitle("Universidad Transversal");
         initComponents();
@@ -92,6 +93,11 @@ public static AlumnoData controlAlu = new AlumnoData();
         jMenuBar1.add(jmConsultas);
 
         jmSalir.setText("Salir");
+        jmSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmSalirActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jmSalir);
 
         setJMenuBar(jMenuBar1);
@@ -119,18 +125,22 @@ public static AlumnoData controlAlu = new AlumnoData();
         Escritorio.moveToFront(calific);    }//GEN-LAST:event_jmNotasActionPerformed
 
     private void jmGestionAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmGestionAlumnosActionPerformed
-         Escritorio.removeAll();
+        Escritorio.removeAll();
         Escritorio.repaint();
         GestionAlumnos alu = new GestionAlumnos();
         alu.setVisible(true);
         Escritorio.add(alu);
         Escritorio.moveToFront(alu);
-    
+
     }//GEN-LAST:event_jmGestionAlumnosActionPerformed
 
     private void jmAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmAlumnoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jmAlumnoActionPerformed
+
+    private void jmSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmSalirActionPerformed
+     
+    }//GEN-LAST:event_jmSalirActionPerformed
 
     /**
      * @param args the command line arguments
