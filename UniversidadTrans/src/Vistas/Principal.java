@@ -6,7 +6,8 @@ public class Principal extends javax.swing.JFrame {
 
 public static AlumnoData controlAlu = new AlumnoData();
 public static MateriaData controlMat = new MateriaData();
-    
+public static InscripcionData controlInsc = new InscripcionData();
+
     public Principal() {
         setTitle("Universidad Transversal");
         initComponents();

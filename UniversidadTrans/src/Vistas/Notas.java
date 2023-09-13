@@ -2,14 +2,21 @@ package Vistas;
 
 import Entidades.Alumno;
 import AccesoADatos.AlumnoData;
+import Entidades.Inscripcion;
+import Entidades.Materia;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
         
 public class Notas extends javax.swing.JInternalFrame {
-
+private DefaultTableModel modelo = new DefaultTableModel() {
+    };
     
     public Notas() {
         setTitle("Carga de Notas");
         initComponents();
+        cargarCombo();
+        cargaCabecera();
+        
     }
 
     
@@ -46,9 +53,16 @@ public class Notas extends javax.swing.JInternalFrame {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jtMaterias);
@@ -71,7 +85,7 @@ public class Notas extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
@@ -79,16 +93,17 @@ public class Notas extends javax.swing.JInternalFrame {
                         .addGap(28, 28, 28)
                         .addComponent(jcbAlumnos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addComponent(jbGuardar)
-                        .addGap(164, 164, 164)
-                        .addComponent(jbsalir)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(44, 44, 44)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(109, 109, 109)
+                                .addComponent(jbGuardar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbsalir)))
+                        .addGap(0, 44, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,13 +112,13 @@ public class Notas extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlseleccion)
                     .addComponent(jcbAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jbGuardar)
-                    .addComponent(jbsalir))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbsalir)
+                    .addComponent(jbGuardar))
+                .addGap(37, 37, 37))
         );
 
         pack();
@@ -118,7 +133,14 @@ public class Notas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbsalirActionPerformed
 
     private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
-        // TODO add your handling code here:
+int f= modelo.getRowCount()-1;
+for (;f>=0;f--){
+modelo.removeRow(f);}
+        Alumno buscado = (Alumno) jcbAlumnos.getSelectedItem();
+        for (Inscripcion inscripcion : Principal.controlInsc.obtenerInscripcionesPorAlumno(buscado.getId())) {
+            modelo.addRow(new Object []{inscripcion.getMateria().getId(), inscripcion.getMateria().getNombre(),inscripcion.getNota()});
+            }
+        
     }//GEN-LAST:event_jcbAlumnosActionPerformed
 
 
@@ -132,8 +154,14 @@ public class Notas extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
 private void cargarCombo(){
-     List<Alumno> listaDeAlumnos =;
-    for (Alumno <Alumno> : col) {}
+    for (Alumno aluCombo : Principal.controlAlu.listarAlumnos()) {
+        jcbAlumnos.addItem(aluCombo);
+    }
         
    }
+private void cargaCabecera(){
+    modelo.addColumn("Código");
+    modelo.addColumn("Nombre");
+    modelo.addColumn("Nota");
+jtMaterias.setModel(modelo);}
 }
