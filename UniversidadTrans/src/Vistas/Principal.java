@@ -67,6 +67,11 @@ public static MateriaData controlMat = new MateriaData();
         jmMateria.setText("Materia");
 
         jmGestionMaterias.setText("Formulario de Materia");
+        jmGestionMaterias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmGestionMateriasActionPerformed(evt);
+            }
+        });
         jmMateria.add(jmGestionMaterias);
 
         jMenuBar1.add(jmMateria);
@@ -142,6 +147,17 @@ public static MateriaData controlMat = new MateriaData();
     private void jmSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmSalirActionPerformed
      
     }//GEN-LAST:event_jmSalirActionPerformed
+
+    private void jmGestionMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmGestionMateriasActionPerformed
+        // TODO add your handling code here:
+        Escritorio.removeAll();
+        Escritorio.repaint();
+        GestionMaterias mat = new GestionMaterias();
+        mat.setVisible(true);
+        Escritorio.add(mat);
+        Escritorio.moveToFront(mat);
+        
+    }//GEN-LAST:event_jmGestionMateriasActionPerformed
 
     /**
      * @param args the command line arguments

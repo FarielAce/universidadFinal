@@ -178,15 +178,14 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "No ingresó el código de la materia.");
         } else {
             int cod = Integer.parseInt(jTCodigo.getText());
-            busco = Principal.controlAlu.buscarAlumnoPorDni(dni);
-            if (buscado == null) {
-                JOptionPane.showMessageDialog(null, "No se encuentra el alumno");
+            busco = Principal.controlMat.buscarMateria(cod);
+            if (busco == null) {
+                JOptionPane.showMessageDialog(null, "No se encuentra la materia");
             } else {
-                jtNombre.setText(buscado.getNombre());
-                jtApellido.setText(buscado.getApellido());
-                jrEstado.setSelected(buscado.isEstado());
-                jdFechaNac.setDate(java.sql.Date.valueOf(buscado.getFechaNac()));
-                blkEliminar(true);
+                jTNombre.setText(busco.getNombre());
+                int anio = busco.getAnio();
+                jTAnio.setText(""+anio);
+                jRBEstado.setSelected(busco.isEstado());
             }
             
         }
