@@ -164,4 +164,5 @@ private void cargaCabecera(){
     modelo.addColumn("Nombre");
     modelo.addColumn("Nota");
 jtMaterias.setModel(modelo);}
+
 }

@@ -78,8 +78,18 @@ public static InscripcionData controlInsc = new InscripcionData();
         jMenuBar1.add(jmMateria);
 
         jmAdministracion.setText("Administración");
+        jmAdministracion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmAdministracionActionPerformed(evt);
+            }
+        });
 
         jmInscripciones.setText("Manejo de inscripciones");
+        jmInscripciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmInscripcionesActionPerformed(evt);
+            }
+        });
         jmAdministracion.add(jmInscripciones);
 
         jmNotas.setText("Manipulación de Notas");
@@ -159,6 +169,19 @@ public static InscripcionData controlInsc = new InscripcionData();
         Escritorio.moveToFront(mat);
         
     }//GEN-LAST:event_jmGestionMateriasActionPerformed
+
+    private void jmAdministracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmAdministracionActionPerformed
+       
+    }//GEN-LAST:event_jmAdministracionActionPerformed
+
+    private void jmInscripcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmInscripcionesActionPerformed
+      Escritorio.removeAll();
+        Escritorio.repaint();
+        InscripcionesForm inscripcion = new InscripcionesForm();
+        inscripcion.setVisible(true);
+        Escritorio.add(inscripcion);
+        Escritorio.moveToFront(inscripcion);
+    }//GEN-LAST:event_jmInscripcionesActionPerformed
 
     /**
      * @param args the command line arguments
