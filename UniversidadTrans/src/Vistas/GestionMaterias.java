@@ -1,7 +1,11 @@
 
 package Vistas;
 
+import Entidades.Alumno;
 import Entidades.Materia;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class GestionMaterias extends javax.swing.JInternalFrame {
@@ -10,6 +14,9 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
     
     public GestionMaterias() {
         initComponents();
+        bloquear(false);
+        blkEliminar(false);
+        blkGuardar(false);
     }
 
     /**
@@ -66,6 +73,11 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
         });
 
         jBEliminar.setText("Eliminar");
+        jBEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBEliminarActionPerformed(evt);
+            }
+        });
 
         jBGuardar.setText("Guardar");
         jBGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -75,6 +87,11 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
         });
 
         jBSalir.setText("Salir");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
 
         jBBuscar.setText("Buscar");
         jBBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -158,12 +175,41 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
-        // TODO add your handling code here:
+        limpiarJt();
+        bloquear(true);
+        blkGuardar(true);
         
     }//GEN-LAST:event_jBNuevoActionPerformed
 
     private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
-        // TODO add your handling code here:
+        if (jTNombre.getText().isEmpty() || jTAnio.getText().isEmpty() || jTCodigo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "todos los datos son obligatorios");
+        } else {
+            Object[] opciones = {"SI", "NO", "CANCELAR"};
+            
+            int opcion = JOptionPane.showOptionDialog(null,
+                    "¿Todos los datos son Correctos?",
+                    "Confirmacion",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    null, opciones, opciones[2]);
+            jRBEstado.setSelected(true);
+            jRBEstado.setEnabled(false);
+            
+            if (opcion == JOptionPane.YES_OPTION) {
+                int anio = Integer.parseInt(jTAnio.getText());
+                String nombre = jTNombre.getText();
+                System.out.println( nombre + "" + anio);
+                Materia nuevo = new Materia(nombre, anio, true);
+                Principal.controlMat.GuardarMateria(nuevo);
+                limpiarJt();
+            } else if (opcion == JOptionPane.NO_OPTION) {
+                
+            } else if (opcion == JOptionPane.CANCEL_OPTION) {
+                limpiarJt();
+                bloquear(false);
+                blkGuardar(false);
+            }
     }//GEN-LAST:event_jBGuardarActionPerformed
 
     private void jTCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTCodigoActionPerformed
@@ -193,6 +239,34 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jBBuscarActionPerformed
 
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
+
+    private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
+        Object[] opciones = {"SI", "NO", "CANCELAR"};
+        
+        int opcion = JOptionPane.showOptionDialog(null,
+                "¿Esta seguro de eliminar el alumno?",
+                "Confirmacion",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                null, opciones, opciones[2]);
+        
+        if (opcion == JOptionPane.YES_OPTION) {
+            Principal.controlMat.eliminarMateria(busco.getId());
+            limpiarJt();
+            blkEliminar(false);
+            
+        } else if (opcion == JOptionPane.NO_OPTION) {
+            
+        } else if (opcion == JOptionPane.CANCEL_OPTION) {
+            limpiarJt();
+            bloquear(false);
+            blkEliminar(false);
+        }
+    }//GEN-LAST:event_jBEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBBuscar;
@@ -211,4 +285,30 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTCodigo;
     private javax.swing.JTextField jTNombre;
     // End of variables declaration//GEN-END:variables
+
+    public void limpiarJt() {
+        
+        jTNombre.setText("");
+        jTAnio.setText("");
+        jRBEstado.setSelected(false);        
+                
+    }
+    
+    public void bloquear(boolean estado) {
+        
+        jTNombre.setEnabled(estado);
+        jTAnio.setEnabled(estado);
+        jRBEstado.setEnabled(estado);        
+                
+    }
+    
+    public void blkEliminar(boolean estado) {
+        
+        jBEliminar.setEnabled(estado);
+    }
+    
+    public void blkGuardar(boolean estado) {
+        jBGuardar.setEnabled(estado);
+    }
+    
 }

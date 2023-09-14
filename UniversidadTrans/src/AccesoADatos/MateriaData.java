@@ -24,8 +24,8 @@ public class MateriaData {
     
    
       
-    public void guardarMateria(Materia materia){
-        String sql = "INSERT INTO Materia (id, nombre, anio, estado) VALUES (?, ?, ?, ?)";
+    public void GuardarMateria(Materia materia){
+        String sql = "INSERT INTO Materias (id, nombre, anio, estado) VALUES (?, ?, ?, ?)";
      try {
          PreparedStatement ps = Conexion.getConexion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
          ps.setInt(1, materia.getId());
@@ -108,10 +108,10 @@ public class MateriaData {
 
      }
     
-    public void eliminarAlumno(int id) {
+    public void eliminarMateria(int id) {
 
         try {
-            String sql = "UPDATE materia SET estado = 0 WHERE idMateria = ? ";
+            String sql = "UPDATE materias SET estado = 0 WHERE idMateria = ? ";
             PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
             ps.setInt(1, id);
             int fila=ps.executeUpdate();
