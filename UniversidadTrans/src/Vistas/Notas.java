@@ -6,20 +6,24 @@ import Entidades.Inscripcion;
 import Entidades.Materia;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-        
+
 public class Notas extends javax.swing.JInternalFrame {
-private DefaultTableModel modelo = new DefaultTableModel() {
+
+    private DefaultTableModel modelo = new DefaultTableModel() {
+        public boolean isCellEditable(int f, int c) {
+            return c == 2;
+        }
     };
-    
+
     public Notas() {
         setTitle("Carga de Notas");
         initComponents();
         cargarCombo();
         cargaCabecera();
-        
+        jbGuardar.setEnabled(false);
+
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -125,22 +129,26 @@ private DefaultTableModel modelo = new DefaultTableModel() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-        // TODO add your handling code here:
+     int fila = jtMaterias.getSelectedRow();            //devuelve el numero de la fila seleccionada
+     int idMat =(int) modelo.getValueAt(fila, 0);   //devuelve el valor de la fila seleccionada y columna 
+     double nota = (double) modelo.getValueAt(fila, 2); 
+     Alumno seleccionado = (Alumno)jcbAlumnos.getSelectedItem();
+     Principal.controlInsc.actualizarNota(seleccionado.getId(), idMat, nota);
+     mostrarMaterias(seleccionado);
+     
+     
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbsalirActionPerformed
-        // TODO add your handling code here:
+dispose();        // cierra la pantalla
     }//GEN-LAST:event_jbsalirActionPerformed
 
     private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
-int f= modelo.getRowCount()-1;
-for (;f>=0;f--){
-modelo.removeRow(f);}
-        Alumno buscado = (Alumno) jcbAlumnos.getSelectedItem();
-        for (Inscripcion inscripcion : Principal.controlInsc.obtenerInscripcionesPorAlumno(buscado.getId())) {
-            modelo.addRow(new Object []{inscripcion.getMateria().getId(), inscripcion.getMateria().getNombre(),inscripcion.getNota()});
-            }
         
+        Alumno buscado = (Alumno) jcbAlumnos.getSelectedItem();
+        mostrarMaterias(buscado);
+        jbGuardar.setEnabled(true);
+
     }//GEN-LAST:event_jcbAlumnosActionPerformed
 
 
@@ -153,16 +161,30 @@ modelo.removeRow(f);}
     private javax.swing.JTable jtMaterias;
     // End of variables declaration//GEN-END:variables
 
-private void cargarCombo(){
-    for (Alumno aluCombo : Principal.controlAlu.listarAlumnos()) {
-        jcbAlumnos.addItem(aluCombo);
+    private void cargarCombo() {
+        for (Alumno aluCombo : Principal.controlAlu.listarAlumnos()) {
+            jcbAlumnos.addItem(aluCombo);
+        }
     }
-        
-   }
-private void cargaCabecera(){
-    modelo.addColumn("Código");
-    modelo.addColumn("Nombre");
-    modelo.addColumn("Nota");
-jtMaterias.setModel(modelo);}
 
+    private void cargaCabecera() {
+        modelo.addColumn("Código");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Nota");
+        jtMaterias.setModel(modelo);
+    }
+
+    private void limpiarTabla() {
+        int f = modelo.getRowCount() - 1;
+        for (; f >= 0; f--) {
+            modelo.removeRow(f);
+        }
+    }
+
+    private void mostrarMaterias(Alumno buscado) {
+        limpiarTabla();
+        for (Inscripcion inscripcion : Principal.controlInsc.obtenerInscripcionesPorAlumno(buscado.getId())) {
+            modelo.addRow(new Object[]{inscripcion.getMateria().getId(), inscripcion.getMateria().getNombre(), inscripcion.getNota()});
+        }
+    }
 }
