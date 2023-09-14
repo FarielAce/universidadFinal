@@ -246,6 +246,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                 Alumno nuevo = new Alumno(apellido, nombre, dni, fechaNac, true);
                 Principal.controlAlu.GuardarAlum(nuevo);
                 limpiarJt();
+                blkGuardar(false);
             } else if (opcion == JOptionPane.NO_OPTION) {
                 
             } else if (opcion == JOptionPane.CANCEL_OPTION) {

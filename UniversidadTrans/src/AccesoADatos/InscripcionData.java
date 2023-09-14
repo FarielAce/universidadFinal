@@ -24,18 +24,18 @@ public class InscripcionData {
 
     public void guardarInscripcion(Inscripcion insc) {
         SQL = "INSERT INTO `inscripciones`(`idAlumno`, `idMateria`, `nota`)"
-                + " VALUES ('?','?','?')";
+                + " VALUES (?,?,?)";
 
         try {
             ps = Conexion.getConexion().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, insc.getAlumno().getId());
-            ps.setInt(2, insc.getAlumno().getId());
+            ps.setInt(2, insc.getMateria().getId());
             ps.setDouble(3, insc.getNota());
             ps.executeUpdate();
 
             resultado = ps.getGeneratedKeys();
             if (resultado.next()) {
-                insc.setId(resultado.getInt("idInscripciones"));
+                insc.setId(resultado.getInt(1));
                 JOptionPane.showMessageDialog(null, "Inscripcion Correcta");
             } else {
                 JOptionPane.showMessageDialog(null, "Error de inscripcion");
@@ -75,7 +75,6 @@ public class InscripcionData {
                 nuevo = new Alumno(resultado.getInt("idAlumno"), resultado.getString("apellido_alumno"), resultado.getString("nombre_alumno"), resultado.getInt("dni"), resultado.getDate("fechaNac").toLocalDate(), resultado.getBoolean("estado_alumnos"));
                 mate = new Materia(resultado.getInt("idMateria"), resultado.getString("nombre_materias"), resultado.getInt("anio"), resultado.getBoolean("estado_materias"));
                 encontrada = new Inscripcion(resultado.getInt("idInscripciones"), nuevo, mate, resultado.getDouble("nota"));
-                System.out.println("TEST"+ nuevo.toString() + "/n" + mate.toString() +"/n" + encontrada.toString());
                 inscripciones.add(encontrada);
             }
 

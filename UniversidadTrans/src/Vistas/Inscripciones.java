@@ -160,7 +160,7 @@ public class Inscripciones extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCBselecAlumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBselecAlumActionPerformed
-       jCBselecAlum.addItem(e);
+      // jCBselecAlum.addItem(e);
     }//GEN-LAST:event_jCBselecAlumActionPerformed
 
 

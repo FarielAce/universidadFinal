@@ -13,14 +13,12 @@ import Vistas.Principal;
  */
 public class UniversidadTrans {
 
+    public static void main(String[] args) {
 
-public static void main(String[] args) {
-     
-     Principal mainFrame = new Principal();
-        
+        Principal mainFrame = new Principal();
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
-  
+
     }
-    
+
 }
