@@ -1,6 +1,7 @@
 package Vistas;
 
 import AccesoADatos.*;
+import static javafx.application.Platform.exit;
 
 public class Principal extends javax.swing.JFrame {
 
@@ -158,7 +159,7 @@ public static InscripcionData controlInsc = new InscripcionData();
     }//GEN-LAST:event_jmAlumnoActionPerformed
 
     private void jmSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmSalirActionPerformed
-     
+        
     }//GEN-LAST:event_jmSalirActionPerformed
 
     private void jmGestionMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmGestionMateriasActionPerformed

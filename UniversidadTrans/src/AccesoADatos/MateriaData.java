@@ -25,7 +25,7 @@ public class MateriaData {
    
       
     public void GuardarMateria(Materia materia){
-        String sql = "INSERT INTO Materias (id, nombre, anio, estado) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Materias (idMateria, nombre, anio, estado) VALUES (?, ?, ?, ?)";
      try {
          PreparedStatement ps = Conexion.getConexion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
          ps.setInt(1, materia.getId());
@@ -35,23 +35,21 @@ public class MateriaData {
          ps.executeUpdate();
          ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-             materia.setId(rs.getInt("idMateria"));
-         JOptionPane.showMessageDialog(null, "Materia añadida con exito."); 
-
+                materia.setId(rs.getInt(1));
+                JOptionPane.showMessageDialog(null, "Materia añadida con exito."); 
             }
          ps.close();
 
         } catch (SQLException ex) {
           JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Materia"+ex.getMessage()); 
 
-        }finally{
+        }/*finally{
             try {
-                ps.close();
                 resultado.close();
             } catch (SQLException ex) {
                 Logger.getLogger(MateriaData.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }*/
    } 
     
     public Materia buscarMateria(int id){
@@ -72,7 +70,7 @@ public class MateriaData {
                 materia.setEstado(true); 
              
             }else {
-                JOptionPane.showMessageDialog(null, "No existe la materia");
+                JOptionPane.showMessageDialog(null, "No hay materia registrada con ese codigo");
                 ps.close();
             }
         }catch (SQLException ex) {

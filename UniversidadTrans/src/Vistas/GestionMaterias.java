@@ -59,13 +59,7 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Estado:");
 
-        jTCodigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTCodigoActionPerformed(evt);
-            }
-        });
-
-        jBNuevo.setText("Nuevo");
+        jBNuevo.setText("Nueva");
         jBNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBNuevoActionPerformed(evt);
@@ -117,26 +111,26 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
                     .addComponent(jTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(179, 179, 179))
+                .addContainerGap(58, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(jBNuevo)
                 .addGap(18, 18, 18)
                 .addComponent(jBEliminar)
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
                 .addComponent(jBGuardar)
                 .addGap(18, 18, 18)
                 .addComponent(jBSalir)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jBBuscar)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(166, 166, 166)
+                .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -162,7 +156,7 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jRBEstado))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBNuevo)
                     .addComponent(jBEliminar)
@@ -178,11 +172,14 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
         limpiarJt();
         bloquear(true);
         blkGuardar(true);
+        jTCodigo.setEnabled(false);
+        jRBEstado.setSelected(true);
+        jRBEstado.setEnabled(false);
         
     }//GEN-LAST:event_jBNuevoActionPerformed
 
     private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
-        if (jTNombre.getText().isEmpty() || jTAnio.getText().isEmpty() || jTCodigo.getText().isEmpty()) {
+        if (jTNombre.getText().isEmpty() || jTAnio.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "todos los datos son obligatorios");
         } else {
             Object[] opciones = {"SI", "NO", "CANCELAR"};
@@ -203,19 +200,22 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
                 Materia nuevo = new Materia(nombre, anio, true);
                 Principal.controlMat.GuardarMateria(nuevo);
                 limpiarJt();
+                jTCodigo.setEnabled(true);
+                bloquear(false);
+                blkGuardar(false);
+                
             } else if (opcion == JOptionPane.NO_OPTION) {
                 
             } else if (opcion == JOptionPane.CANCEL_OPTION) {
                 limpiarJt();
                 bloquear(false);
                 blkGuardar(false);
+                jTCodigo.setEnabled(true);
+                
             }
-    }//GEN-LAST:event_jBGuardarActionPerformed
-
-    private void jTCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTCodigoActionPerformed
-        // TODO add your handling code here:
+        }
         
-    }//GEN-LAST:event_jTCodigoActionPerformed
+    }//GEN-LAST:event_jBGuardarActionPerformed
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         // TODO add your handling code here:
@@ -226,12 +226,15 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
             int cod = Integer.parseInt(jTCodigo.getText());
             busco = Principal.controlMat.buscarMateria(cod);
             if (busco == null) {
-                JOptionPane.showMessageDialog(null, "No se encuentra la materia");
-            } else {
+                
+                blkEliminar(false);
+                
+            }else{
                 jTNombre.setText(busco.getNombre());
                 int anio = busco.getAnio();
                 jTAnio.setText(""+anio);
                 jRBEstado.setSelected(busco.isEstado());
+                blkEliminar(true);
             }
             
         }
@@ -247,7 +250,7 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
         Object[] opciones = {"SI", "NO", "CANCELAR"};
         
         int opcion = JOptionPane.showOptionDialog(null,
-                "¿Esta seguro de eliminar el alumno?",
+                "¿Esta seguro de eliminar la materia?",
                 "Confirmacion",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.YES_NO_CANCEL_OPTION,
@@ -264,6 +267,7 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
             limpiarJt();
             bloquear(false);
             blkEliminar(false);
+            
         }
     }//GEN-LAST:event_jBEliminarActionPerformed
 
@@ -290,7 +294,8 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
         
         jTNombre.setText("");
         jTAnio.setText("");
-        jRBEstado.setSelected(false);        
+        jRBEstado.setSelected(false);
+        jTCodigo.setText(null);
                 
     }
     
@@ -298,8 +303,8 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
         
         jTNombre.setEnabled(estado);
         jTAnio.setEnabled(estado);
-        jRBEstado.setEnabled(estado);        
-                
+        jRBEstado.setEnabled(estado);
+        
     }
     
     public void blkEliminar(boolean estado) {
