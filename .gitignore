@@ -25,3 +25,4 @@ replay_pid*
 /UniversidadTrans/nbproject/private/
 /UniversidadTrans/build/
 
+UniversidadTrans/src/AccesoADatos/Conexion.java
