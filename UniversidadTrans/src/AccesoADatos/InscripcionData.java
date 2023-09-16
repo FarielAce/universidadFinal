@@ -158,7 +158,7 @@ public class InscripcionData {
         return lista;
     }
 
-    public List<Materia> obtenerMatereiasNOCursadas(int id) {
+    public List<Materia> obtenerMateriasNOCursadas(int id) {
         List<Materia> lista = new ArrayList<>();
         SQL = "SELECT m.idMateria, m.nombre, m.anio, m.estado "
             + "FROM materias AS m "

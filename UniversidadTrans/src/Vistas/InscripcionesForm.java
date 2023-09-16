@@ -272,7 +272,7 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
             }
     }
     private void listarNoCursadas(int id){
-    for (Materia materia : Principal.controlInsc.obtenerMatereiasNOCursadas(id)) {
+    for (Materia materia : Principal.controlInsc.obtenerMateriasNOCursadas(id)) {
             modelo.addRow(new Object[]{materia.getId(), materia.getNombre(), materia.getAnio()});
         }
     }

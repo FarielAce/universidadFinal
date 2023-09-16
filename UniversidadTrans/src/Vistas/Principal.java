@@ -108,6 +108,11 @@ public static InscripcionData controlInsc = new InscripcionData();
         jmConsultas.setText("Consultas");
 
         jmAlumnoPorMateria.setText("Alumnos por materia");
+        jmAlumnoPorMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmAlumnoPorMateriaActionPerformed(evt);
+            }
+        });
         jmConsultas.add(jmAlumnoPorMateria);
 
         jMenuBar1.add(jmConsultas);
@@ -185,6 +190,17 @@ public static InscripcionData controlInsc = new InscripcionData();
         Escritorio.add(inscripcion);
         Escritorio.moveToFront(inscripcion);
     }//GEN-LAST:event_jmInscripcionesActionPerformed
+
+    private void jmAlumnoPorMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmAlumnoPorMateriaActionPerformed
+        Escritorio.removeAll();
+        Escritorio.repaint();
+        ConsultaAlumnMate cam = new ConsultaAlumnMate();
+        cam.setVisible(true);
+        Escritorio.add(cam);
+        Escritorio.moveToFront(cam);                                           
+
+        
+    }//GEN-LAST:event_jmAlumnoPorMateriaActionPerformed
 
     /**
      * @param args the command line arguments
