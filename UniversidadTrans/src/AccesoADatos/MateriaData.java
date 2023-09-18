@@ -127,17 +127,18 @@ public class MateriaData {
 
     List<Materia> materias = new ArrayList<>();
      try {
-        String sql = "SELECT * FROM alumno WHERE estado = 1 ";
+        String sql = "SELECT * FROM materias WHERE estado = 1 ";
         PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
           Materia materia = new Materia();
 
-        materia.setId(rs.getInt("Id Materia"));
-        materia.setNombre(rs.getString("Nombre"));
-        materia.setAnio(rs.getInt("Año"));
-        materia.setEstado(rs.getBoolean("Estado"));
-        
+        materia.setId(rs.getInt("idMateria"));
+        materia.setNombre(rs.getString("nombre"));
+        materia.setAnio(rs.getInt("anio"));
+        materia.setEstado(rs.getBoolean("estado"));
+        materias.add(materia);
+            System.out.println(materia.toString());
     }
     ps.close();
 

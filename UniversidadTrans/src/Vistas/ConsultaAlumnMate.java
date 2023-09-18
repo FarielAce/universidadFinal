@@ -72,6 +72,11 @@ public class ConsultaAlumnMate extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTMateriasXAlumn);
 
         jBSalir.setText("Salir");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,11 +119,16 @@ public class ConsultaAlumnMate extends javax.swing.JInternalFrame {
     private void jCBListMaterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBListMaterActionPerformed
         
             Materia buscada = (Materia) jCBListMater.getSelectedItem();
-         for (Inscripcion inscripcion : Principal.controlInsc.obtenerInscripcionesPorAlumno(buscada.getId())) {
-            modelo.addRow(new Object []{inscripcion.getMateria().getNombre(), inscripcion.getMateria().getAnio()});
+            limpiarTabla();
+         for (Alumno alumno : Principal.controlInsc.obtenerAlumnosXMateria(buscada.getId())) {
+            modelo.addRow(new Object []{alumno.getId(), alumno.getDni(), alumno.getApellido(), alumno.getNombre()});
             
             }
     }//GEN-LAST:event_jCBListMaterActionPerformed
+
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+       dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -140,7 +150,7 @@ private void cargarCombo() {
     }
 
     private void cargaCabecera() {
-        modelo.addColumn("Id");
+        modelo.addColumn("ID");
         modelo.addColumn("DNI");
         modelo.addColumn("Apellido");
         modelo.addColumn("Nombre");
