@@ -138,6 +138,7 @@ public class MateriaData {
         materia.setAnio(rs.getInt("Anio"));
         materia.setEstado(rs.getBoolean("estado"));
         materias.add(materia);
+
     }
     ps.close();
 

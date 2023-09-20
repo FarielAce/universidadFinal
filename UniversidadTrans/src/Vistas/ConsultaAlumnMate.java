@@ -146,7 +146,7 @@ public class ConsultaAlumnMate extends javax.swing.JInternalFrame {
     }
 
     private void cargaCabecera() {
-        modelo.addColumn("Id");
+        modelo.addColumn("ID");
         modelo.addColumn("DNI");
         modelo.addColumn("Apellido");
         modelo.addColumn("Nombre");
