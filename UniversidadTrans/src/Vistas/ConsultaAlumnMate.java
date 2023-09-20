@@ -15,9 +15,10 @@ import javax.swing.table.DefaultTableModel;
  * @author Usuario
  */
 public class ConsultaAlumnMate extends javax.swing.JInternalFrame {
-    
+
     private DefaultTableModel modelo = new DefaultTableModel() {
-        };
+    };
+
     /**
      * Creates new form ConsultaAlumnMate
      */
@@ -25,8 +26,7 @@ public class ConsultaAlumnMate extends javax.swing.JInternalFrame {
         initComponents();
         cargarCombo();
         cargaCabecera();
-       
-        
+        limpiarTabla();
     }
 
     /**
@@ -72,6 +72,11 @@ public class ConsultaAlumnMate extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTMateriasXAlumn);
 
         jBSalir.setText("Salir");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,13 +117,14 @@ public class ConsultaAlumnMate extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCBListMaterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBListMaterActionPerformed
-        
-            Materia buscada = (Materia) jCBListMater.getSelectedItem();
-         for (Inscripcion inscripcion : Principal.controlInsc.obtenerInscripcionesPorAlumno(buscada.getId())) {
-            modelo.addRow(new Object []{inscripcion.getMateria().getNombre(), inscripcion.getMateria().getAnio()});
-            
-            }
+        Materia buscada = (Materia) jCBListMater.getSelectedItem();
+        limpiarTabla();
+        cargarTabla(buscada.getId());
     }//GEN-LAST:event_jCBListMaterActionPerformed
+
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -130,13 +136,13 @@ public class ConsultaAlumnMate extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTMateriasXAlumn;
     // End of variables declaration//GEN-END:variables
 
-private void cargarCombo() {
+    private void cargarCombo() {
         for (Materia mateCombo : Principal.controlMat.listarMateria()) {
-          
+
             jCBListMater.addItem(mateCombo);
-             
+
         }
-        
+
     }
 
     private void cargaCabecera() {
@@ -157,11 +163,18 @@ private void cargarCombo() {
     private void mostrarAlumnos(Alumno buscada) {
         limpiarTabla();
         for (Inscripcion inscripcion : Principal.controlInsc.obtenerInscripcionesPorAlumno(buscada.getId())) {
-            modelo.addRow(new Object[]{inscripcion.getAlumno().getId() , inscripcion.getAlumno().getDni(), inscripcion.getAlumno().getApellido(), inscripcion.getAlumno().getNombre()});
+            modelo.addRow(new Object[]{inscripcion.getAlumno().getId(), inscripcion.getAlumno().getDni(), inscripcion.getAlumno().getApellido(), inscripcion.getAlumno().getNombre()});
         }
     }
 
+    private void cargarTabla(int id) {
+        for (Alumno alu : Principal.controlInsc.obtenerAlumnosXMateria(id)) {
+            modelo.addRow(new Object[]{alu.getId(),
+                alu.getDni(),
+                alu.getApellido(),
+                alu.getNombre()
+            });
 
+        }
+    }
 }
-
-

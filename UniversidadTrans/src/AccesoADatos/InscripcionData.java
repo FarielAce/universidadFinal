@@ -96,8 +96,8 @@ public class InscripcionData {
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int id) {
         List<Inscripcion> lista = new ArrayList<>();
         SQL = "SELECT i.idMateria, i.idInscripciones, i.nota, m.nombre, m.anio,m.idMateria, a.idAlumno, a.nombre AS nombre_alumno, a.apellido, a.dni, a.fechaNac, a.estado "
-                + "FROM inscripciones AS i, materias AS m, alumnos AS a \n"
-                + "WHERE i.idMateria = m.idMateria AND i.idAlumno = ? AND a.idAlumno = ? AND m.estado = 1";
+            + "FROM inscripciones AS i, materias AS m, alumnos AS a "
+            + "WHERE i.idMateria = m.idMateria AND i.idAlumno = ? AND a.idAlumno = ? AND m.estado = 1";
         Inscripcion nueva;
         Alumno nuevo;
         Materia mate;
@@ -112,6 +112,7 @@ public class InscripcionData {
                 mate = new Materia(resultado.getInt("idMateria"), resultado.getString("nombre"), resultado.getInt("anio"), true);
                 nueva = new Inscripcion(resultado.getInt("idInscripciones"), nuevo, mate, resultado.getDouble("nota"));
                 lista.add(nueva);
+                System.out.println(nuevo.toString());
             }
         } catch (SQLException ex) {
             Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);

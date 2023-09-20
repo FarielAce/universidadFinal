@@ -1,7 +1,7 @@
 package Vistas;
 
 import AccesoADatos.*;
-import static javafx.application.Platform.exit;
+
 
 public class Principal extends javax.swing.JFrame {
 
