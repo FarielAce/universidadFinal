@@ -245,21 +245,30 @@ public class InscripcionData {
     }
 
     public void actualizarNota(int idAlumno, int idMateria, double nota) {
-        SQL = "UPDATE inscripciones SET nota = ? "
-            + "WHERE idMateria = ? AND idAlumno = ?;";
+        System.out.println(nota);
+        SQL = "UPDATE inscripciones SET nota = ? WHERE idMateria = ? AND idAlumno = ?";
 
         try {
             ps = Conexion.getConexion().prepareStatement(SQL);
             ps.setDouble(1, nota);
             ps.setInt(2, idMateria);
             ps.setInt(3, idAlumno);
+            System.out.println(ps);
             int estado = ps.executeUpdate();
             if (estado>0) {
                 JOptionPane.showMessageDialog(null, "Actualizacion Correcta");
             }
         } catch (SQLException ex) {
             Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Actualizacion Incorrecta");
         } finally {
+            try {
+                resultado.close();
+                ps.close();
+                Conexion.getConexion().close();
+            } catch (SQLException ex) {
+                Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }

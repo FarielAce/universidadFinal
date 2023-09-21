@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Notas extends javax.swing.JInternalFrame {
 
-    private DefaultTableModel modelo = new DefaultTableModel() {
+    private DefaultTableModel modelo = new DefaultTableModel(){
         public boolean isCellEditable(int f, int c) {
             return c == 2;
         }
@@ -55,7 +55,7 @@ public class Notas extends javax.swing.JInternalFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, true
@@ -129,9 +129,11 @@ public class Notas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-     int fila = jtMaterias.getSelectedRow();            //devuelve el numero de la fila seleccionada
+     int fila = jtMaterias.getSelectedRow(); //devuelve el numero de la fila seleccionada
+        System.out.println(fila);
      int idMat =(int) modelo.getValueAt(fila, 0);   //devuelve el valor de la fila seleccionada y columna 
-     double nota = (double) modelo.getValueAt(fila, 2); 
+     double nota = (double) modelo.getValueAt(fila, 2);
+        System.out.println(nota);
      Alumno seleccionado = (Alumno)jcbAlumnos.getSelectedItem();
      Principal.controlInsc.actualizarNota(seleccionado.getId(), idMat, nota);
      mostrarMaterias(seleccionado);
@@ -140,7 +142,7 @@ public class Notas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbsalirActionPerformed
-dispose();        // cierra la pantalla
+        dispose();        // cierra la pantalla
     }//GEN-LAST:event_jbsalirActionPerformed
 
     private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
@@ -168,7 +170,7 @@ dispose();        // cierra la pantalla
     }
 
     private void cargaCabecera() {
-        modelo.addColumn("Código");
+        modelo.addColumn("Código Materia");
         modelo.addColumn("Nombre");
         modelo.addColumn("Nota");
         jtMaterias.setModel(modelo);
