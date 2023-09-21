@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Notas extends javax.swing.JInternalFrame {
 
-    private DefaultTableModel modelo = new DefaultTableModel() {
+    private DefaultTableModel modelo = new DefaultTableModel(){
         public boolean isCellEditable(int f, int c) {
             return false;
         }
@@ -45,6 +45,34 @@ public class Notas extends javax.swing.JInternalFrame {
                 jcbAlumnosActionPerformed(evt);
             }
         });
+
+        jtMaterias.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Código", "Nombre", "Nota"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jtMaterias);
 
         jbGuardar.setText("Guardar");
         jbGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -119,31 +147,20 @@ public class Notas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-        int fila = jtMaterias.getSelectedRow();            //devuelve el numero de la fila seleccionada
-        int idMat = (int) modelo.getValueAt(fila, 0);   //devuelve el valor de la fila seleccionada y columna 
-        double nota = (double) modelo.getValueAt(fila, 2);
-        System.out.println(fila + ", " + idMat + ", " + nota);
-        Alumno seleccionado = (Alumno) jcbAlumnos.getSelectedItem();
-        Principal.controlInsc.actualizarNota(seleccionado.getId(), idMat, nota);
-        mostrarMaterias(seleccionado);
-        jbGuardar.setEnabled(false);
-        salir = true;
-        noGuardada = true;
-
+     int fila = jtMaterias.getSelectedRow(); //devuelve el numero de la fila seleccionada
+        System.out.println(fila);
+     int idMat =(int) modelo.getValueAt(fila, 0);   //devuelve el valor de la fila seleccionada y columna 
+     double nota = (double) modelo.getValueAt(fila, 2);
+        System.out.println(nota);
+     Alumno seleccionado = (Alumno)jcbAlumnos.getSelectedItem();
+     Principal.controlInsc.actualizarNota(seleccionado.getId(), idMat, nota);
+     mostrarMaterias(seleccionado);
+     
+     
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbsalirActionPerformed
-        if (!salir) {
-            int condicion = JOptionPane.showConfirmDialog(this, "La ultima modificacion no fue guardada ¿Desea salir sin Guardar?");
-
-            if (condicion == JOptionPane.YES_OPTION) {
-                dispose();
-            }
-        } else {
-            dispose();
-        }
-
-        // cierra la pantalla
+        dispose();        // cierra la pantalla
     }//GEN-LAST:event_jbsalirActionPerformed
 
     private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
@@ -197,7 +214,7 @@ public class Notas extends javax.swing.JInternalFrame {
     }
 
     private void cargaCabecera() {
-        modelo.addColumn("Código");
+        modelo.addColumn("Código Materia");
         modelo.addColumn("Nombre");
         modelo.addColumn("Nota");
         jtMaterias.setModel(modelo);
