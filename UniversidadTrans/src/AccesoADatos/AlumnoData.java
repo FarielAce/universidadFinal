@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,11 @@ public class AlumnoData {
             }
             
         } catch (SQLException ex) {
+            if ( ex instanceof SQLIntegrityConstraintViolationException) { //verifica si el error se debe al DNI duplicado
+                JOptionPane.showMessageDialog(null, "El DNI ya esta cargado en la Base de Datos, puede buscarlo y editarlo de ser necesario");
+            }else{
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno"+ex.getMessage());
+            }
         }finally{
             try {
                //ps.close();
@@ -53,7 +58,7 @@ public class AlumnoData {
  
     public Alumno buscarAlumno(int id) {
         Alumno alumno = null;
-        String sql = "SELECT dni, apellido, nombre, fechaNac FROM alumnos WHERE idAlumno = ? AND estado = 1";
+        String sql = "SELECT dni, apellido, nombre, fechaNac FROM alumnos WHERE idAlumno = ?";
         PreparedStatement ps = null;
         try {
             ps = Conexion.getConexion().prepareStatement(sql);
@@ -83,7 +88,7 @@ public class AlumnoData {
      
     public Alumno buscarAlumnoPorDni(int dni) {
         Alumno alumno = null;
-        String sql = "SELECT idAlumno, dni, apellido, nombre, fechaNac FROM alumnos WHERE dni=? AND estado = 1";
+        String sql = "SELECT idAlumno, dni, apellido, nombre, estado, fechaNac FROM alumnos WHERE dni=?";
         PreparedStatement ps = null;
         try {
             ps = Conexion.getConexion().prepareStatement(sql);
@@ -97,7 +102,7 @@ public class AlumnoData {
                 alumno.setApellido(rs.getString("apellido"));
                 alumno.setNombre(rs.getString("nombre"));
                 alumno.setFechaNac(rs.getDate("fechaNac").toLocalDate());
-                alumno.setEstado(true); 
+                alumno.setEstado(rs.getBoolean("estado")); 
             
             } 
 //            else {
@@ -139,7 +144,7 @@ public class AlumnoData {
      
     public void modificarAlumno(Alumno alumno){
         
-        String sql = "UPDATE alumnos SET dni = ? , apellido = ?, nombre = ?, fechaNac = ? WHERE idAlumno = ?";
+        String sql = "UPDATE alumnos SET dni = ? , apellido = ?, nombre = ?, fechaNac = ?, estado = ? WHERE idAlumno = ?";
         PreparedStatement ps = null; 
         
         try {
@@ -148,10 +153,12 @@ public class AlumnoData {
             ps.setString(2, alumno.getApellido());
             ps.setString(3, alumno.getNombre());
             ps.setDate(4, Date.valueOf(alumno.getFechaNac()));
-            ps.setInt(5, alumno.getId());
+            ps.setBoolean(5, alumno.isEstado());
+            ps.setInt(6, alumno.getId());
             int exito = ps.executeUpdate(); 
                 if (exito == 1) {
                     JOptionPane.showMessageDialog(null, "Modificado Exitosamente.");
+                    System.out.println(alumno.toString() + alumno.getId());
                 } else {
                     JOptionPane.showMessageDialog(null, "El alumno no existe");
                 }
