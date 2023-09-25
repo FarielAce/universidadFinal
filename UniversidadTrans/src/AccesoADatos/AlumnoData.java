@@ -103,7 +103,7 @@ public class AlumnoData {
                 alumno.setNombre(rs.getString("nombre"));
                 alumno.setFechaNac(rs.getDate("fechaNac").toLocalDate());
                 alumno.setEstado(rs.getBoolean("estado")); 
-            
+                
             } 
 //            else {
 //                JOptionPane.showMessageDialog(null, "No existe el alumno");
@@ -146,7 +146,7 @@ public class AlumnoData {
         
         String sql = "UPDATE alumnos SET dni = ? , apellido = ?, nombre = ?, fechaNac = ?, estado = ? WHERE idAlumno = ?";
         PreparedStatement ps = null; 
-        
+        System.out.println(alumno.toString() +"Id." + alumno.getId());
         try {
             ps = Conexion.getConexion().prepareStatement(sql);
             ps.setInt(1, alumno.getDni());

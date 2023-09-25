@@ -9,7 +9,6 @@ import Entidades.Alumno;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,7 +21,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
     private boolean alumnoEditadoGuardado = false;
 
     /**
-     * Creates new form GestionAlumno
+     * interface grafica para la gestion de alumnos
      */
     public GestionAlumnos() {
         setTitle("Gestion Alumnos");
@@ -220,8 +219,14 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                 jtApellido.setText(buscado.getApellido());
                 jrEstado.setSelected(buscado.isEstado());
                 jdFechaNac.setDate(java.sql.Date.valueOf(buscado.getFechaNac()));
-                blkEliminar(true);
-                jbEditar.setEnabled(true);
+
+                if (buscado.isEstado()) {
+                    blkEliminar(true);
+                    jbEditar.setEnabled(true);
+                } else {
+                    blkEliminar(false);
+                    jbEditar.setEnabled(true);
+                }
             }
 
         }
@@ -233,6 +238,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         jbBuscar.setEnabled(false);
         bloquear(true);
         blkGuardar(true);
+        blkEliminar(false);
         jbEditar.setEnabled(false);
 
     }//GEN-LAST:event_jbNuevoActionPerformed
@@ -262,13 +268,14 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                     String apellido = jtApellido.getText();
                     LocalDate fechaNac = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     System.out.println(dni + " " + nombre + apellido + fechaNac);
-                    Alumno nuevo = new Alumno(apellido, nombre, dni, fechaNac, true);
+                    boolean estado = jrEstado.isSelected();
+                    Alumno nuevo = new Alumno(buscado.getId(), apellido, nombre, dni, fechaNac, estado);
                     Principal.controlAlu.modificarAlumno(nuevo);
                     limpiarJt();
                     blkGuardar(false);
                     bloquear(false);
                     jbBuscar.setEnabled(true);
-                    
+                    alumnoEditadoGuardado = false;
                 } else {
                     int dni = Integer.parseInt(jtDocumento.getText());
                     String nombre = jtNombre.getText();
@@ -327,6 +334,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
     private void jbEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarActionPerformed
         bloquear(true);
         blkGuardar(true);
+        blkEliminar(false);
         alumnoEditadoGuardado = true;
     }//GEN-LAST:event_jbEditarActionPerformed
 
