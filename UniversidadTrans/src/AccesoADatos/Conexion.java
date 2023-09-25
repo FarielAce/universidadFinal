@@ -7,14 +7,7 @@ import javax.swing.JOptionPane;
 
 public class Conexion {
 
-<<<<<<< Updated upstream
     private static final String URL = "jdbc:mariadb://localhost:3307/universidad";
-=======
-
-    
-
-    private static final String URL = "jdbc:mariadb://localhost:3306/universidad";
->>>>>>> Stashed changes
     private static final String USER = "root";
     private static final String PASS = "";
          

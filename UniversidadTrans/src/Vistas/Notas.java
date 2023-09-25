@@ -147,14 +147,12 @@ public class Notas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-     int fila = jtMaterias.getSelectedRow(); //devuelve el numero de la fila seleccionada
-        System.out.println(fila);
-     int idMat =(int) modelo.getValueAt(fila, 0);   //devuelve el valor de la fila seleccionada y columna 
-     double nota = (double) modelo.getValueAt(fila, 2);
-        System.out.println(nota);
-     Alumno seleccionado = (Alumno)jcbAlumnos.getSelectedItem();
-     Principal.controlInsc.actualizarNota(seleccionado.getId(), idMat, nota);
-     mostrarMaterias(seleccionado);
+        int fila = jtMaterias.getSelectedRow(); //devuelve el numero de la fila seleccionada
+        int idMat =(int) modelo.getValueAt(fila, 0);   //devuelve el valor de la fila seleccionada y columna 
+        double nota = (double) modelo.getValueAt(fila, 2);
+        Alumno seleccionado = (Alumno)jcbAlumnos.getSelectedItem();
+        Principal.controlInsc.actualizarNota(seleccionado.getId(), idMat, nota);
+        mostrarMaterias(seleccionado);
      
      
     }//GEN-LAST:event_jbGuardarActionPerformed

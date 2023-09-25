@@ -1,6 +1,10 @@
 package Vistas;
 
 import AccesoADatos.*;
+import Entidades.Alumno;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import javax.swing.JOptionPane;
 
 
 public class Principal extends javax.swing.JFrame {
@@ -118,6 +122,11 @@ public static InscripcionData controlInsc = new InscripcionData();
         jMenuBar1.add(jmConsultas);
 
         jmSalir.setText("Salir");
+        jmSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jmSalirMousePressed(evt);
+            }
+        });
         jmSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmSalirActionPerformed(evt);
@@ -201,6 +210,24 @@ public static InscripcionData controlInsc = new InscripcionData();
 
         
     }//GEN-LAST:event_jmAlumnoPorMateriaActionPerformed
+
+    private void jmSalirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmSalirMousePressed
+        
+        Object[] opciones = {"SI", "NO"};
+            
+        int opcion = JOptionPane.showOptionDialog(null,
+            "¿Desea salir del sistema?",
+            "Confirmacion",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.YES_NO_OPTION,
+            null, opciones, opciones[1]);
+                        
+            if (opcion == JOptionPane.YES_OPTION) {
+                dispose();
+            } else if (opcion == JOptionPane.NO_OPTION) {
+          
+            }        
+    }//GEN-LAST:event_jmSalirMousePressed
 
     /**
      * @param args the command line arguments
