@@ -5,30 +5,37 @@
 package Vistas;
 
 import Entidades.Alumno;
-
+import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Color;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ferna
+ * @author Fernando Acevedo
  */
 public class GestionAlumnos extends javax.swing.JInternalFrame {
 
-    Alumno buscado; //declaro el alumno buscado como variable global. para poder utilizarla en el boton eliminar.-
+    /*                               DECLARACION VARIABLE GLOBALES.
+      -Se declara la variable Alumno buscado para utilizar el alumno recuperado en la busqueda
+      en los diferentes botones(editar, eliminar)
+      -Se declara el boolean alumnoEditadoGuardado para saber si es un alumno nuevo o bien procedente de
+      una busqueda. de esta manera informa a al boton guardar que debe hacer si crear un nuevo alumno o 
+      editar el seleccionado en la busqueda.
+     */
+    private Alumno buscado;
     private boolean alumnoEditadoGuardado = false;
 
     /**
      * interface grafica para la gestion de alumnos
      */
     public GestionAlumnos() {
-        setTitle("Gestion Alumnos");
+        setTitle("Gestion Alumnos");  //coloca en la barra de titulo el nombre
         initComponents();
-        bloquear(false);
-        blkEliminar(false);
-        blkGuardar(false);
+        bloquear(false);              //bloquea los jTextField/jDateChoser para que no puedan editarse
+        blkEliminar(false);           //Inicializa el boton Eliminar "apagado"
+        blkGuardar(false);            //Inicializa el boton Guardar "apagado"
     }
 
     /**
@@ -71,12 +78,6 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Fecha de Nacimiento:");
-
-        jrEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrEstadoActionPerformed(evt);
-            }
-        });
 
         jbBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/LUPA.png"))); // NOI18N
         jbBuscar.setText("buscar");
@@ -143,7 +144,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                             .addComponent(jbEliminar)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jbEditar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                             .addComponent(jbGuardar)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jbSalir))
@@ -201,15 +202,17 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jrEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jrEstadoActionPerformed
-
+    /**
+     * Captura el evento de tocar el JButton = jbBuscar. informa por pantalla de
+     * encontrar el DNI del alumno buscado. ademas de habilitar o deshabilitar
+     * los botones Guardar/Eliminar en caso de encontrar un alumno dado de baja.
+     *
+     */
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         if (jtDocumento.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar un DNI");
         } else {
+            try{
             int dni = Integer.parseInt(jtDocumento.getText());
             buscado = Principal.controlAlu.buscarAlumnoPorDni(dni);
             if (buscado == null) {
@@ -228,7 +231,9 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                     jbEditar.setEnabled(true);
                 }
             }
-
+            }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "solo puede ingresar numeros");
+            }
         }
 
     }//GEN-LAST:event_jbBuscarActionPerformed
@@ -245,6 +250,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         Date fecha = jdFechaNac.getDate();
+        try{
         if (jtDocumento.getText().isEmpty() || jtApellido.getText().isEmpty() || jtNombre.getText().isEmpty() || fecha == null) {
             JOptionPane.showMessageDialog(null, "todos los datos son obligatorios");
         } else {
@@ -281,7 +287,6 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                     String nombre = jtNombre.getText();
                     String apellido = jtApellido.getText();
                     LocalDate fechaNac = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    System.out.println(dni + " " + nombre + apellido + fechaNac);
                     Alumno nuevo = new Alumno(apellido, nombre, dni, fechaNac, true);
                     Principal.controlAlu.GuardarAlum(nuevo);
                     limpiarJt();
@@ -297,7 +302,10 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                 blkGuardar(false);
                 jbBuscar.setEnabled(true);
             }
-
+        
+        }
+        }catch(NumberFormatException e){
+               JOptionPane.showMessageDialog(null, "el DNI solo puede contener numeros");
         }
     }//GEN-LAST:event_jbGuardarActionPerformed
 
@@ -321,6 +329,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
             Principal.controlAlu.eliminarAlumno(buscado.getId());
             limpiarJt();
             blkEliminar(false);
+            jbEditar.setEnabled(false);
 
         } else if (opcion == JOptionPane.NO_OPTION) {
 
@@ -328,6 +337,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
             limpiarJt();
             bloquear(false);
             blkEliminar(false);
+            jbEditar.setEnabled(false);
         }
     }//GEN-LAST:event_jbEliminarActionPerformed
 
@@ -363,10 +373,17 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         jrEstado.setEnabled(estado);
         jdFechaNac.setEnabled(estado);
         jbEditar.setEnabled(estado);
+        if (!estado) {
+            jtApellido.setDisabledTextColor(Color.BLACK);
+            jtNombre.setDisabledTextColor(Color.BLACK);
+            jtDocumento.setDisabledTextColor(Color.BLACK);
+            //JTextFieldDateEditor editor = jdFechaNac.getDateEditor();
+            jdFechaNac.setForeground(Color.BLACK);
+                     
+        }
     }
 
     public void blkEliminar(boolean estado) {
-
         jbEliminar.setEnabled(estado);
     }
 

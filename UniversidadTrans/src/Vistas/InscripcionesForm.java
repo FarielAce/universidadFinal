@@ -9,13 +9,14 @@ import Entidades.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
  * @author fernando
  */
 public class InscripcionesForm extends javax.swing.JInternalFrame {
 
     private DefaultTableModel modelo = new DefaultTableModel() {
-
+        public boolean isCellEditable(int f, int c) {
+            return false;
+        }
     };
     private Alumno seleccionado;
 
@@ -205,7 +206,6 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
     private void jbInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInscribirActionPerformed
         int fila = jtMaterias.getSelectedRow();
         if (fila != -1) {
-
             int idMateria = (int) modelo.getValueAt(fila, 0);
             Materia seleccionada = Principal.controlMat.buscarMateria(idMateria);
             Inscripcion nueva = new Inscripcion(seleccionado, seleccionada, 0.0);
@@ -226,7 +226,7 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
             Principal.controlInsc.borrarInscripcionMateriaAlumno(idAlumno, idMateria);
             limpiarTabla();
             int id = seleccionado.getId();
-            listarNoCursadas(id);
+            listarCursadas(id);
         }
     }//GEN-LAST:event_jbAnularInscripcionActionPerformed
 
@@ -249,28 +249,33 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
             jcbAlumnos.addItem(lAlumno);
         }
     }
+    
     private void cabecera() {
         modelo.addColumn("Id");
         modelo.addColumn("Nombre");
         modelo.addColumn("Año");
         jtMaterias.setModel(modelo);
     }
+    
     private void limpiarTabla() {
         int f = modelo.getRowCount() - 1;
         for (; f >= 0; f--) {
             modelo.removeRow(f);
         }
     }
+    
     private void bloqueaBotones(boolean block) {
         jbInscribir.setEnabled(block);
         jbAnularInscripcion.setEnabled(!block);
 
     }
+    
     private void listarCursadas(int id){
     for (Materia materia : Principal.controlInsc.obtenerMateriasCursadas(id)) {
                 modelo.addRow(new Object[]{materia.getId(), materia.getNombre(), materia.getAnio()});
             }
     }
+    
     private void listarNoCursadas(int id){
     for (Materia materia : Principal.controlInsc.obtenerMateriasNOCursadas(id)) {
             modelo.addRow(new Object[]{materia.getId(), materia.getNombre(), materia.getAnio()});

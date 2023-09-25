@@ -6,7 +6,7 @@
 package universidadtrans;
 
 import Vistas.Principal;
-import Vistas.prueba;
+
 
 /**
  *
@@ -19,7 +19,5 @@ public class UniversidadTrans {
         Principal mainFrame = new Principal();
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
-  
     }
-
 }

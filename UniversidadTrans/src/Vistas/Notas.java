@@ -153,12 +153,25 @@ public class Notas extends javax.swing.JInternalFrame {
         Alumno seleccionado = (Alumno)jcbAlumnos.getSelectedItem();
         Principal.controlInsc.actualizarNota(seleccionado.getId(), idMat, nota);
         mostrarMaterias(seleccionado);
-     
-     
+        jbGuardar.setEnabled(false);
+        salir = true;
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbsalirActionPerformed
-        dispose();        // cierra la pantalla
+       Object[] opciones = {"Si", "No"};                 // objeto con el texto de las opciones 
+       
+        int op = JOptionPane.showOptionDialog(null, //posicion en patalla
+            "No se guardo la ultima modificacion ¿Desea salir sin Guardar?",               // mesaje principal
+            "Confirmacion",                        // rotulo ventana
+            JOptionPane.INFORMATION_MESSAGE,           // tipo de opcion
+            JOptionPane.YES_NO_OPTION,                // cantida opciones (yes, yes no, yes no cancel)
+            null, opciones, opciones[1]);         // carga el texto de las opciones
+        if (op == JOptionPane.YES_OPTION) {  
+            dispose();        // cierra la pantalla
+        }else{
+        
+        }
+        
     }//GEN-LAST:event_jbsalirActionPerformed
 
     private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
@@ -170,7 +183,7 @@ public class Notas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jcbAlumnosActionPerformed
 
     private void jtMateriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtMateriasMouseClicked
-       
+       salir = false;
         
         
         String dato = JOptionPane.showInputDialog("ingrese la nota a modificar");

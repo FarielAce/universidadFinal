@@ -37,7 +37,7 @@
                           <Component id="jbEliminar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jbEditar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="10" max="32767" attributes="0"/>
+                          <EmptySpace pref="16" max="32767" attributes="0"/>
                           <Component id="jbGuardar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jbSalir" min="-2" max="-2" attributes="0"/>
@@ -160,9 +160,6 @@
     <Component class="javax.swing.JTextField" name="jtNombre">
     </Component>
     <Component class="javax.swing.JRadioButton" name="jrEstado">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrEstadoActionPerformed"/>
-      </Events>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jdFechaNac">
     </Component>
