@@ -340,6 +340,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         blkGuardar(true);
         blkEliminar(false);
         alumnoEditadoGuardado = true;
+        jrEstado.setEnabled(false);
     }//GEN-LAST:event_jbEditarActionPerformed
 
 

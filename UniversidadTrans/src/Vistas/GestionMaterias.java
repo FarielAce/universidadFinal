@@ -3,6 +3,7 @@ package Vistas;
 
 import Entidades.Alumno;
 import Entidades.Materia;
+import java.awt.Color;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -10,7 +11,9 @@ import javax.swing.JOptionPane;
 
 public class GestionMaterias extends javax.swing.JInternalFrame {
 
-    Materia busco;
+    private Materia busco;
+    private boolean materiaEditada = false;
+    private boolean salir = false;
     
     public GestionMaterias() {
         initComponents();
@@ -188,6 +191,10 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
         jTCodigo.setEnabled(false);
         jRBEstado.setSelected(true);
         jRBEstado.setEnabled(false);
+        blkEditar(false);
+        blkEliminar(false);
+        jBBuscar.setEnabled(false);
+        salir = true;
         
     }//GEN-LAST:event_jBNuevoActionPerformed
 
@@ -203,22 +210,37 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
                     JOptionPane.DEFAULT_OPTION,
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     null, opciones, opciones[2]);
-            jRBEstado.setSelected(true);
+            //jRBEstado.setSelected(true);
             jRBEstado.setEnabled(false);
             
             if (opcion == JOptionPane.YES_OPTION) {
-                int idMat = Integer.parseInt(jTCodigo.getText());
-                int anio = Integer.parseInt(jTAnio.getText());
-                String nombre = jTNombre.getText();
-                System.out.println( idMat+""+nombre + "" + anio);
-                boolean estado = Boolean.parseBoolean(jRBEstado.getText());
-                Materia nuevo = new Materia(idMat,nombre, anio, estado);
-                Principal.controlMat.modificarMateria(nuevo);
-                limpiarJt();
-                jTCodigo.setEnabled(true);
-                bloquear(false);
-                blkGuardar(false);
-                
+                if (materiaEditada){
+                    int idMat = Integer.parseInt(jTCodigo.getText());
+                    int anio = Integer.parseInt(jTAnio.getText());
+                    String nombre = jTNombre.getText();
+                    boolean estado = jRBEstado.isSelected();
+                    Materia nuevo = new Materia(idMat,nombre, anio, estado);
+                    Principal.controlMat.modificarMateria(nuevo);
+                    limpiarJt();
+                    jTCodigo.setEnabled(true);
+                    bloquear(false);
+                    blkGuardar(false);
+                    blkEditar(false);
+                    blkNuevo(true);
+                    salir = false;
+                    
+                }else{
+                    int anio = Integer.parseInt(jTAnio.getText());
+                    String nombre = jTNombre.getText();
+                    boolean estado = jRBEstado.isSelected();
+                    Materia nuevo = new Materia(busco.getId(),nombre, anio, estado);
+                    Principal.controlMat.modificarMateria(nuevo);
+                    limpiarJt();
+                    jTCodigo.setEnabled(true);
+                    bloquear(false);
+                    blkGuardar(false);
+                                    
+                }
             } else if (opcion == JOptionPane.NO_OPTION) {
                 
             } else if (opcion == JOptionPane.CANCEL_OPTION) {
@@ -226,6 +248,8 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
                 bloquear(false);
                 blkGuardar(false);
                 jTCodigo.setEnabled(true);
+                blkNuevo(true);
+                blkEditar(false);
                 
             }
         }
@@ -234,50 +258,81 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
             
-            int cod = Integer.parseInt(jTCodigo.getText());
-            busco = Principal.controlMat.buscarMateria(cod);
-            if (busco == null) {
-                limpiarJt();
-                blkEliminar(false);
-                blkEditar(false);
-            }else{
-                jTNombre.setText(busco.getNombre());
-                int anio = busco.getAnio();
-                jTAnio.setText(""+anio);
-                jRBEstado.setSelected(busco.isEstado());
-                blkEliminar(true);
-                blkEditar(true);
+            if (jTCodigo.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null, "No hay id de materia cargado");
+            }else{  
+                int cod = Integer.parseInt(jTCodigo.getText());
+                busco = Principal.controlMat.buscarMateria(cod);
+                if (busco == null) {
+                    limpiarJt();
+                    blkEliminar(false);
+                    blkEditar(false);
+                    blkNuevo(true);
+                }else{
+                    jTNombre.setText(busco.getNombre());
+                    int anio = busco.getAnio();
+                    jTAnio.setText(""+anio);
+                    jRBEstado.setSelected(busco.isEstado());
+                    blkEliminar(true);
+                    blkEditar(true);
+                    blkNuevo(true);
+                }    
             }
             
         //}   
     }//GEN-LAST:event_jBBuscarActionPerformed
 
     private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
-        dispose();
+        if (salir){
+            Object[] opciones = {"VOLVER", "SALIR"};
+            int opcion = JOptionPane.showOptionDialog(null,
+                    "¿Desea volver a Buscar?",
+                    "Confirmacion",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.YES_NO_OPTION,
+                    null, opciones, opciones[1]);
+                        if (opcion == JOptionPane.YES_OPTION){
+                           limpiarJt();
+                            blkEliminar(false);
+                            blkEditar(false);
+                            blkNuevo(true);
+                            blkGuardar(false);
+                            bloquear(false);
+                            jBBuscar.setEnabled(true);
+                            jTCodigo.setEnabled(true);
+                            salir = false;
+                        }else{
+                            dispose();
+                        }
+        }else{
+            dispose();
+            
+        }                
     }//GEN-LAST:event_jBSalirActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
-        Object[] opciones = {"SI", "NO", "CANCELAR"};
+        Object[] opciones = {"SI", "NO"};
         
         int opcion = JOptionPane.showOptionDialog(null,
                 "¿Esta seguro de eliminar la materia?",
                 "Confirmacion",
                 JOptionPane.DEFAULT_OPTION,
-                JOptionPane.YES_NO_CANCEL_OPTION,
-                null, opciones, opciones[2]);
+                JOptionPane.YES_NO_OPTION,
+                null, opciones, opciones[1]);
         
         if (opcion == JOptionPane.YES_OPTION) {
             Principal.controlMat.eliminarMateria(busco.getId());
             limpiarJt();
             blkEliminar(false);
+            blkEditar(false);
+            blkNuevo(true);
             
         } else if (opcion == JOptionPane.NO_OPTION) {
-            
-        } else if (opcion == JOptionPane.CANCEL_OPTION) {
             limpiarJt();
-            bloquear(false);
             blkEliminar(false);
-            
+            blkEditar(false);
+            blkNuevo(true);
+                           
         }
     }//GEN-LAST:event_jBEliminarActionPerformed
 
@@ -287,6 +342,8 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
         bloquear(true);
         blkGuardar(true);
         jTCodigo.setEnabled(false);
+        materiaEditada = true;
+        jRBEstado.setEnabled(false);
         
     }//GEN-LAST:event_jBEditarActionPerformed
 
@@ -324,6 +381,8 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
         jTNombre.setEnabled(estado);
         jTAnio.setEnabled(estado);
         jRBEstado.setEnabled(estado);
+        jTNombre.setDisabledTextColor(Color.BLACK);
+        jTAnio.setDisabledTextColor(Color.BLACK);
                 
     }
     
