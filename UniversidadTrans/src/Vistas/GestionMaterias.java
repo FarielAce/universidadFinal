@@ -1,12 +1,9 @@
 
 package Vistas;
 
-import Entidades.Alumno;
+
 import Entidades.Materia;
 import java.awt.Color;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class GestionMaterias extends javax.swing.JInternalFrame {
@@ -343,7 +340,7 @@ public class GestionMaterias extends javax.swing.JInternalFrame {
         blkGuardar(true);
         jTCodigo.setEnabled(false);
         materiaEditada = true;
-        jRBEstado.setEnabled(false);
+        jRBEstado.setEnabled(true);
         
     }//GEN-LAST:event_jBEditarActionPerformed
 

@@ -26,14 +26,14 @@ public class AlumnoData {
         String sql = "INSERT INTO alumnos (dni, apellido, nombre, fechaNac, estado)"
                 + " VALUES (?,?,?,?,?)";
         try {
-            PreparedStatement ps = Conexion.getConexion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps = Conexion.getConexion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, alumno.getDni());
             ps.setString(2, alumno.getApellido());
             ps.setString(3, alumno.getNombre());
             ps.setDate(4, Date.valueOf(alumno.getFechaNac()));//localDate a Date
             ps.setBoolean(5, alumno.isEstado()); // if reducido
             ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
+            rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 alumno.setId(rs.getInt(1)); //modifique para que tome el id generado
                 JOptionPane.showMessageDialog(null, "Alumno añadido con exito.");
@@ -76,6 +76,12 @@ public class AlumnoData {
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno " + ex.getMessage());
+        } finally {
+            try {
+                Conexion.getConexion().close();
+            } catch (SQLException ex) {
+                Logger.getLogger(MateriaData.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         return alumno;
@@ -116,8 +122,8 @@ public class AlumnoData {
         List<Alumno> alumnos = new ArrayList<>();
         try {
             String sql = "SELECT * FROM alumnos WHERE estado = 1 ";
-            PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            ps = Conexion.getConexion().prepareStatement(sql);
+            rs = ps.executeQuery();
             while (rs.next()) {
 
                 Alumno alumno = new Alumno();
@@ -132,7 +138,7 @@ public class AlumnoData {
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno " + ex.getMessage());
-        }finally{
+        } finally {
             try {
                 Conexion.getConexion().close();
             } catch (SQLException ex) {
@@ -162,7 +168,7 @@ public class AlumnoData {
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno " + ex.getMessage());
-        }finally{
+        } finally {
             try {
                 Conexion.getConexion().close();
             } catch (SQLException ex) {
@@ -184,7 +190,7 @@ public class AlumnoData {
             ps.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno");
-        }finally{
+        } finally {
             try {
                 Conexion.getConexion().close();
             } catch (SQLException ex) {

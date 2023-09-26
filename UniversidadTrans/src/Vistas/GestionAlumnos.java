@@ -26,6 +26,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
      */
     private Alumno buscado;
     private boolean alumnoEditadoGuardado = false;
+    private boolean salir = false;
 
     /**
      * interface grafica para la gestion de alumnos
@@ -245,6 +246,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         blkGuardar(true);
         blkEliminar(false);
         jbEditar.setEnabled(false);
+        salir = true;
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
@@ -253,9 +255,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
             if (jtDocumento.getText().isEmpty() || jtApellido.getText().isEmpty() || jtNombre.getText().isEmpty() || fecha == null) {
                 JOptionPane.showMessageDialog(null, "todos los datos son obligatorios");
             } else {
-
-                Object[] opciones = {"SI", "NO", "CANCELAR"};
-
+                Object[] opciones = {"SI", "NO", "CANCELAR"};       //Crea un Vector con los textos a mostrar
                 int opcion = JOptionPane.showOptionDialog(null,
                         "¿Todos los datos son Correctos?",
                         "Confirmacion",
@@ -304,8 +304,29 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
-        dispose();
+        if (salir) {
+            Object[] opciones = {"Volver", "Salir"};
 
+            int opcion = JOptionPane.showOptionDialog(null,
+                    "¿Desea volver al menu anterior?",
+                    "Confirmacion",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.YES_NO_OPTION,
+                    null, opciones, opciones[1]);
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                bloquear(false);
+                blkEliminar(false);
+                blkGuardar(false);
+                jbBuscar.setEnabled(true);
+                salir = false;
+            } else {
+                dispose();
+            }
+
+        } else {
+            dispose();
+        }
     }//GEN-LAST:event_jbSalirActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
@@ -340,7 +361,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         blkGuardar(true);
         blkEliminar(false);
         alumnoEditadoGuardado = true;
-        jrEstado.setEnabled(false);
+        jrEstado.setEnabled(true);
     }//GEN-LAST:event_jbEditarActionPerformed
 
 
@@ -373,10 +394,12 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
             jtNombre.setDisabledTextColor(Color.BLACK);
             jtDocumento.setDisabledTextColor(Color.BLACK);
             //para poder editar los colores del JDateChooser
+            //Castea el jTextField del JDateChooser en la variable editor para poder modificar su formato
             JTextFieldDateEditor editor = (JTextFieldDateEditor) jdFechaNac.getDateEditor();
+            // se bloquea el JTextField que acompaña al JDateChooser
             editor.setEditable(estado);
+            //Se le pone color negro al JtexField asociado
             editor.setDisabledTextColor(Color.BLACK);
-            
 
         }
     }
