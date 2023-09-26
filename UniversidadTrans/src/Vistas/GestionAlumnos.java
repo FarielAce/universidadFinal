@@ -212,27 +212,27 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         if (jtDocumento.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar un DNI");
         } else {
-            try{
-            int dni = Integer.parseInt(jtDocumento.getText());
-            buscado = Principal.controlAlu.buscarAlumnoPorDni(dni);
-            if (buscado == null) {
-                JOptionPane.showMessageDialog(null, "No se encuentra el alumno");
-            } else {
-                jtNombre.setText(buscado.getNombre());
-                jtApellido.setText(buscado.getApellido());
-                jrEstado.setSelected(buscado.isEstado());
-                jdFechaNac.setDate(java.sql.Date.valueOf(buscado.getFechaNac()));
-
-                if (buscado.isEstado()) {
-                    blkEliminar(true);
-                    jbEditar.setEnabled(true);
+            try {
+                int dni = Integer.parseInt(jtDocumento.getText());
+                buscado = Principal.controlAlu.buscarAlumnoPorDni(dni);
+                if (buscado == null) {
+                    JOptionPane.showMessageDialog(null, "No se encuentra el alumno");
                 } else {
-                    blkEliminar(false);
-                    jbEditar.setEnabled(true);
+                    jtNombre.setText(buscado.getNombre());
+                    jtApellido.setText(buscado.getApellido());
+                    jrEstado.setSelected(buscado.isEstado());
+                    jdFechaNac.setDate(java.sql.Date.valueOf(buscado.getFechaNac()));
+
+                    if (buscado.isEstado()) {
+                        blkEliminar(true);
+                        jbEditar.setEnabled(true);
+                    } else {
+                        blkEliminar(false);
+                        jbEditar.setEnabled(true);
+                    }
                 }
-            }
-            }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(null, "solo puede ingresar numeros");
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "solo puede ingresar numeros");
             }
         }
 
@@ -245,67 +245,61 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         blkGuardar(true);
         blkEliminar(false);
         jbEditar.setEnabled(false);
-
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         Date fecha = jdFechaNac.getDate();
-        try{
-        if (jtDocumento.getText().isEmpty() || jtApellido.getText().isEmpty() || jtNombre.getText().isEmpty() || fecha == null) {
-            JOptionPane.showMessageDialog(null, "todos los datos son obligatorios");
-        } else {
+        try {
+            if (jtDocumento.getText().isEmpty() || jtApellido.getText().isEmpty() || jtNombre.getText().isEmpty() || fecha == null) {
+                JOptionPane.showMessageDialog(null, "todos los datos son obligatorios");
+            } else {
 
-            Object[] opciones = {"SI", "NO", "CANCELAR"};
+                Object[] opciones = {"SI", "NO", "CANCELAR"};
 
-            int opcion = JOptionPane.showOptionDialog(null,
-                    "¿Todos los datos son Correctos?",
-                    "Confirmacion",
-                    JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    null, opciones, opciones[2]);
-            jrEstado.setSelected(true);
-            jrEstado.setEnabled(false);
+                int opcion = JOptionPane.showOptionDialog(null,
+                        "¿Todos los datos son Correctos?",
+                        "Confirmacion",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        null, opciones, opciones[2]);
+                jrEstado.setSelected(true);
+                jrEstado.setEnabled(false);
 
-            if (opcion == JOptionPane.YES_OPTION) {
-
-                if (alumnoEditadoGuardado) { // verifica si el alumno a guardar es nuevo o se edita uno ya creado
+                if (opcion == JOptionPane.YES_OPTION) {
                     int dni = Integer.parseInt(jtDocumento.getText());
                     String nombre = jtNombre.getText();
                     String apellido = jtApellido.getText();
                     LocalDate fechaNac = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    System.out.println(dni + " " + nombre + apellido + fechaNac);
                     boolean estado = jrEstado.isSelected();
-                    Alumno nuevo = new Alumno(buscado.getId(), apellido, nombre, dni, fechaNac, estado);
-                    Principal.controlAlu.modificarAlumno(nuevo);
+                    // verifica si el alumno a guardar es nuevo o se edita uno ya creado
+                    if (alumnoEditadoGuardado) {
+                        Alumno nuevo = new Alumno(buscado.getId(), apellido, nombre, dni, fechaNac, estado);
+                        Principal.controlAlu.modificarAlumno(nuevo);
+                        limpiarJt();
+                        blkGuardar(false);
+                        bloquear(false);
+                        jbBuscar.setEnabled(true);
+                        alumnoEditadoGuardado = false;
+                    } else {
+                        Alumno nuevo = new Alumno(apellido, nombre, dni, fechaNac, true);
+                        Principal.controlAlu.GuardarAlum(nuevo);
+                        limpiarJt();
+                        blkGuardar(false);
+                        bloquear(false);
+                        jbBuscar.setEnabled(true);
+                    }
+                } else if (opcion == JOptionPane.NO_OPTION) {
+
+                } else if (opcion == JOptionPane.CANCEL_OPTION) {
                     limpiarJt();
-                    blkGuardar(false);
                     bloquear(false);
-                    jbBuscar.setEnabled(true);
-                    alumnoEditadoGuardado = false;
-                } else {
-                    int dni = Integer.parseInt(jtDocumento.getText());
-                    String nombre = jtNombre.getText();
-                    String apellido = jtApellido.getText();
-                    LocalDate fechaNac = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    Alumno nuevo = new Alumno(apellido, nombre, dni, fechaNac, true);
-                    Principal.controlAlu.GuardarAlum(nuevo);
-                    limpiarJt();
                     blkGuardar(false);
-                    bloquear(false);
                     jbBuscar.setEnabled(true);
                 }
-            } else if (opcion == JOptionPane.NO_OPTION) {
 
-            } else if (opcion == JOptionPane.CANCEL_OPTION) {
-                limpiarJt();
-                bloquear(false);
-                blkGuardar(false);
-                jbBuscar.setEnabled(true);
             }
-        
-        }
-        }catch(NumberFormatException e){
-               JOptionPane.showMessageDialog(null, "el DNI solo puede contener numeros");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "el DNI solo puede contener numeros");
         }
     }//GEN-LAST:event_jbGuardarActionPerformed
 
@@ -377,9 +371,12 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
             jtApellido.setDisabledTextColor(Color.BLACK);
             jtNombre.setDisabledTextColor(Color.BLACK);
             jtDocumento.setDisabledTextColor(Color.BLACK);
-            //JTextFieldDateEditor editor = jdFechaNac.getDateEditor();
-            jdFechaNac.setForeground(Color.BLACK);
-                     
+            //para poder editar los colores del JDateChooser
+            JTextFieldDateEditor editor = (JTextFieldDateEditor) jdFechaNac.getDateEditor();
+            editor.setEditable(estado);
+            editor.setDisabledTextColor(Color.BLACK);
+            
+
         }
     }
 
