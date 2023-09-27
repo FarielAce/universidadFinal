@@ -8,7 +8,6 @@ import Entidades.Alumno;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -175,9 +174,9 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                             .addComponent(jbNuevo)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jbEliminar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jbEditar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(jbGuardar)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jbSalir))
@@ -374,7 +373,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
     el jTextField qeu corresponde.
     */
     private void jtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtApellidoKeyTyped
-         char c = evt.getKeyChar();
+         char c = evt.getKeyChar();       //carga el evento de tecla en un char para compararlo
             if (!Character.isLetter(c) && c != KeyEvent.VK_SPACE && c!= '\'') {
                 evt.consume(); // Consumir el evento si no es una letra o espacio
             }
@@ -383,7 +382,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
     private void jtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreKeyTyped
     char c = evt.getKeyChar();
             if (!Character.isLetter(c) && c != KeyEvent.VK_SPACE) {
-                evt.consume(); // Consumir el evento si no es una letra o espacio
+                evt.consume(); // Consumir el evento = hace que la tecla apretada no se refleje en el textField
             }
              
     }//GEN-LAST:event_jtNombreKeyTyped
@@ -396,9 +395,9 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtDocumentoKeyTyped
     // reinicia el jDateChooser cada ves que se le hace clic. ya que una ves puesta la fecha no permitia modificarla
     private void jdFechaNacMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jdFechaNacMouseClicked
-        jdFechaNac.setDate(null);
+       jdFechaNac.setDate(null);
     }//GEN-LAST:event_jdFechaNacMouseClicked
-
+    // Captura la presion de ENTER en el Documento para iniciar la busqueda
     private void jtDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDocumentoKeyPressed
        char c = evt.getKeyChar();
         if (c == KeyEvent.VK_ENTER) {
