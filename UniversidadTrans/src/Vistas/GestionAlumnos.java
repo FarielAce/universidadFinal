@@ -7,6 +7,9 @@ package Vistas;
 import Entidades.Alumno;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -37,6 +40,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         bloquear(false);              //bloquea los jTextField/jDateChoser para que no puedan editarse
         blkEliminar(false);           //Inicializa el boton Eliminar "apagado"
         blkGuardar(false);            //Inicializa el boton Guardar "apagado"
+        
     }
 
     /**
@@ -68,6 +72,12 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Documento:");
 
+        jtDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtDocumentoKeyTyped(evt);
+            }
+        });
+
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Apellido:");
 
@@ -79,6 +89,18 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Fecha de Nacimiento:");
+
+        jtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtApellidoKeyTyped(evt);
+            }
+        });
+
+        jtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtNombreKeyTyped(evt);
+            }
+        });
 
         jbBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/LUPA.png"))); // NOI18N
         jbBuscar.setText("buscar");
@@ -145,7 +167,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                             .addComponent(jbEliminar)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jbEditar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                             .addComponent(jbGuardar)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jbSalir))
@@ -213,7 +235,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         if (jtDocumento.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar un DNI");
         } else {
-            try {
+           
                 int dni = Integer.parseInt(jtDocumento.getText());
                 buscado = Principal.controlAlu.buscarAlumnoPorDni(dni);
                 if (buscado == null) {
@@ -232,9 +254,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                         jbEditar.setEnabled(true);
                     }
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "solo puede ingresar numeros");
-            }
+           
         }
 
     }//GEN-LAST:event_jbBuscarActionPerformed
@@ -364,6 +384,28 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         jrEstado.setEnabled(true);
     }//GEN-LAST:event_jbEditarActionPerformed
 
+    private void jtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtApellidoKeyTyped
+         char c = evt.getKeyChar();
+            if (!Character.isLetter(c) && c != KeyEvent.VK_SPACE && c!= '\'') {
+                evt.consume(); // Consumir el evento si no es una letra o espacio
+            }
+    }//GEN-LAST:event_jtApellidoKeyTyped
+
+    private void jtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreKeyTyped
+    char c = evt.getKeyChar();
+            if (!Character.isLetter(c) && c != KeyEvent.VK_SPACE) {
+                evt.consume(); // Consumir el evento si no es una letra o espacio
+            }
+             
+    }//GEN-LAST:event_jtNombreKeyTyped
+
+    private void jtDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDocumentoKeyTyped
+        char c = evt.getKeyChar();
+            if (!Character.isDigit(c)) {
+                evt.consume(); // Consumir el evento si no es una letra o espacio
+            }
+    }//GEN-LAST:event_jtDocumentoKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -419,4 +461,23 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         jdFechaNac.setDate(null);
 
     }
-}
+ private class ValidarSoloLetras implements KeyListener {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            char c = e.getKeyChar();
+            if (!Character.isLetter(c) && c != KeyEvent.VK_SPACE) {
+                e.consume(); // Consumir el evento si no es una letra o espacio
+            }
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            // No necesitas implementar este método
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            // No necesitas implementar este método
+        }
+    }
+    }
