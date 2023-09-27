@@ -45,7 +45,7 @@ public class ConsultaAlumnMate extends javax.swing.JInternalFrame {
         jTMateriasXAlumn = new javax.swing.JTable();
         jBSalir = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(0, 204, 153));
+        setBackground(new java.awt.Color(153, 255, 153));
 
         jLListAlumnMater.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLListAlumnMater.setText("Listado alumnos por materia");

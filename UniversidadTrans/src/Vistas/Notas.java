@@ -37,6 +37,8 @@ public class Notas extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jtMaterias1 = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(153, 255, 153));
+
         jlseleccion.setText("Seleccione un alumno:");
 
         jcbAlumnos.addActionListener(new java.awt.event.ActionListener() {

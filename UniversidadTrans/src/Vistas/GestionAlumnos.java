@@ -7,7 +7,6 @@ package Vistas;
 import Entidades.Alumno;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Date;
@@ -69,10 +68,15 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         jbSalir = new javax.swing.JButton();
         jbEditar = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(153, 255, 153));
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Documento:");
 
         jtDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtDocumentoKeyPressed(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtDocumentoKeyTyped(evt);
             }
@@ -99,6 +103,12 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         jtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtNombreKeyTyped(evt);
+            }
+        });
+
+        jdFechaNac.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jdFechaNacMouseClicked(evt);
             }
         });
 
@@ -232,31 +242,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
      *
      */
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-        if (jtDocumento.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar un DNI");
-        } else {
-           
-                int dni = Integer.parseInt(jtDocumento.getText());
-                buscado = Principal.controlAlu.buscarAlumnoPorDni(dni);
-                if (buscado == null) {
-                    JOptionPane.showMessageDialog(null, "No se encuentra el alumno");
-                } else {
-                    jtNombre.setText(buscado.getNombre());
-                    jtApellido.setText(buscado.getApellido());
-                    jrEstado.setSelected(buscado.isEstado());
-                    jdFechaNac.setDate(java.sql.Date.valueOf(buscado.getFechaNac()));
-
-                    if (buscado.isEstado()) {
-                        blkEliminar(true);
-                        jbEditar.setEnabled(true);
-                    } else {
-                        blkEliminar(false);
-                        jbEditar.setEnabled(true);
-                    }
-                }
-           
-        }
-
+       buscar();
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
@@ -383,7 +369,10 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         alumnoEditadoGuardado = true;
         jrEstado.setEnabled(true);
     }//GEN-LAST:event_jbEditarActionPerformed
-
+    /*
+    capturan la aplicacion de una tecla y valida que sea un caracter valido segun corresponda en 
+    el jTextField qeu corresponde.
+    */
     private void jtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtApellidoKeyTyped
          char c = evt.getKeyChar();
             if (!Character.isLetter(c) && c != KeyEvent.VK_SPACE && c!= '\'') {
@@ -405,6 +394,17 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                 evt.consume(); // Consumir el evento si no es una letra o espacio
             }
     }//GEN-LAST:event_jtDocumentoKeyTyped
+    // reinicia el jDateChooser cada ves que se le hace clic. ya que una ves puesta la fecha no permitia modificarla
+    private void jdFechaNacMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jdFechaNacMouseClicked
+        jdFechaNac.setDate(null);
+    }//GEN-LAST:event_jdFechaNacMouseClicked
+
+    private void jtDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDocumentoKeyPressed
+       char c = evt.getKeyChar();
+        if (c == KeyEvent.VK_ENTER) {
+            buscar();
+        }
+    }//GEN-LAST:event_jtDocumentoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -461,23 +461,31 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
         jdFechaNac.setDate(null);
 
     }
- private class ValidarSoloLetras implements KeyListener {
-        @Override
-        public void keyTyped(KeyEvent e) {
-            char c = e.getKeyChar();
-            if (!Character.isLetter(c) && c != KeyEvent.VK_SPACE) {
-                e.consume(); // Consumir el evento si no es una letra o espacio
-            }
-        }
+    
+    public void buscar(){
+  if (jtDocumento.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un DNI");
+        } else {
+           
+                int dni = Integer.parseInt(jtDocumento.getText());
+                buscado = Principal.controlAlu.buscarAlumnoPorDni(dni);
+                if (buscado == null) {
+                    JOptionPane.showMessageDialog(null, "No se encuentra el alumno");
+                } else {
+                    jtNombre.setText(buscado.getNombre());
+                    jtApellido.setText(buscado.getApellido());
+                    jrEstado.setSelected(buscado.isEstado());
+                    jdFechaNac.setDate(java.sql.Date.valueOf(buscado.getFechaNac()));
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-            // No necesitas implementar este método
+                    if (buscado.isEstado()) {
+                        blkEliminar(true);
+                        jbEditar.setEnabled(true);
+                    } else {
+                        blkEliminar(false);
+                        jbEditar.setEnabled(true);
+                    }
+                }
+           
         }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            // No necesitas implementar este método
-        }
-    }
+ }
     }

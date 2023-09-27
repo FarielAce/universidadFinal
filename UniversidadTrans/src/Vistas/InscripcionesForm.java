@@ -50,6 +50,7 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
         jbAnularInscripcion = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(153, 255, 153));
         setMaximumSize(new java.awt.Dimension(440, 400));
         setMinimumSize(new java.awt.Dimension(440, 400));
         setName(""); // NOI18N
