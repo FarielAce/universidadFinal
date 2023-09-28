@@ -267,7 +267,6 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.YES_NO_CANCEL_OPTION,
                         null, opciones, opciones[2]);
-                jrEstado.setSelected(true);
                 jrEstado.setEnabled(false);
 
                 if (opcion == JOptionPane.YES_OPTION) {
@@ -277,6 +276,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                     LocalDate fechaNac = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     boolean estado = jrEstado.isSelected();
                     // verifica si el alumno a guardar es nuevo o se edita uno ya creado
+                    System.out.println(estado);
                     if (alumnoEditadoGuardado) {
                         Alumno nuevo = new Alumno(buscado.getId(), apellido, nombre, dni, fechaNac, estado);
                         Principal.controlAlu.modificarAlumno(nuevo);
@@ -286,7 +286,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                         jbBuscar.setEnabled(true);
                         alumnoEditadoGuardado = false;
                     } else {
-                        Alumno nuevo = new Alumno(apellido, nombre, dni, fechaNac, true);
+                        Alumno nuevo = new Alumno(apellido, nombre, dni, fechaNac, estado);
                         Principal.controlAlu.GuardarAlum(nuevo);
                         limpiarJt();
                         blkGuardar(false);
@@ -389,8 +389,10 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
 
     private void jtDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDocumentoKeyTyped
         char c = evt.getKeyChar();
-            if (!Character.isDigit(c)) {
+            if (!Character.isDigit(c)&& c!= KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_ENTER) {
                 evt.consume(); // Consumir el evento si no es una letra o espacio
+            JOptionPane.showMessageDialog(null, "Solo se pueden poner Numeros");
+                    
             }
     }//GEN-LAST:event_jtDocumentoKeyTyped
     // reinicia el jDateChooser cada ves que se le hace clic. ya que una ves puesta la fecha no permitia modificarla
