@@ -112,7 +112,7 @@ public class InscripcionData {
                 mate = new Materia(resultado.getInt("idMateria"), resultado.getString("nombre"), resultado.getInt("anio"), true);
                 nueva = new Inscripcion(resultado.getInt("idInscripciones"), nuevo, mate, resultado.getDouble("nota"));
                 lista.add(nueva);
-                System.out.println(nuevo.toString());
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
@@ -143,7 +143,7 @@ public class InscripcionData {
             while (resultado.next()) {
                 nueva = new Materia(resultado.getInt("idMateria"), resultado.getString("nombre"), resultado.getInt("anio"), true);
                 lista.add(nueva);
-                System.out.println(nueva.toString());
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
@@ -173,7 +173,7 @@ public class InscripcionData {
             while (resultado.next()) {
                 nueva = new Materia(resultado.getInt("idMateria"), resultado.getString("nombre"), resultado.getInt("anio"), true);
                 lista.add(nueva);
-                System.out.println(nueva.toString());
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(InscripcionData.class.getName()).log(Level.SEVERE, null, ex);
@@ -205,7 +205,7 @@ public class InscripcionData {
 
                 encontrado = new Alumno(resultado.getInt("idAlumno"), resultado.getString("apellido"), resultado.getString("nombre"), resultado.getInt("dni"), resultado.getDate("fechaNac").toLocalDate(), true);
                 alumnos.add(encontrado);
-                System.out.println(encontrado.toString());
+                
             }
 
         } catch (SQLException ex) {

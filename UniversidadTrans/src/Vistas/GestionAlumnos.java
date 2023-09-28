@@ -276,7 +276,7 @@ public class GestionAlumnos extends javax.swing.JInternalFrame {
                     LocalDate fechaNac = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     boolean estado = jrEstado.isSelected();
                     // verifica si el alumno a guardar es nuevo o se edita uno ya creado
-                    System.out.println(estado);
+                    
                     if (alumnoEditadoGuardado) {
                         Alumno nuevo = new Alumno(buscado.getId(), apellido, nombre, dni, fechaNac, estado);
                         Principal.controlAlu.modificarAlumno(nuevo);
