@@ -13,9 +13,9 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author fernando
  */
-public class notas extends javax.swing.JDialog {
+public class Notas extends javax.swing.JDialog {
 
-   private DefaultTableModel modelo = new DefaultTableModel() {
+    private DefaultTableModel modelo = new DefaultTableModel() {
         @Override
         public boolean isCellEditable(int f, int c) {
             return false;
@@ -23,14 +23,15 @@ public class notas extends javax.swing.JDialog {
     };
     private boolean salir = false;          // revisa que se haya guardado el ultimo dato antes de salir
     private boolean noGuardada = true;      // revisa que se guarde la ultima nota antes permitir modificar otra
-    public notas(java.awt.Frame parent, boolean modal) {
+
+    public Notas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
         setTitle("Carga de Notas");
         initComponents();
         cargarCombo();
         cargaCabecera();
         jbGuardar.setEnabled(false);
+
     }
 
     /**
@@ -183,7 +184,7 @@ public class notas extends javax.swing.JDialog {
         int idMat = (int) modelo.getValueAt(fila, 0);   //devuelve el valor de la fila seleccionada y columna
         double nota = (double) modelo.getValueAt(fila, 2);
         Alumno seleccionado = (Alumno) jcbAlumnos.getSelectedItem();
-        principal.controlInsc.actualizarNota(seleccionado.getId(), idMat, nota);
+        Principal.controlInsc.actualizarNota(seleccionado.getId(), idMat, nota);
         mostrarMaterias(seleccionado);
         jbGuardar.setEnabled(false);
         jcbAlumnos.setEnabled(true);
@@ -195,11 +196,11 @@ public class notas extends javax.swing.JDialog {
         if (salir) {
             Object[] opciones = {"Si", "No"};                 // objeto con el texto de las opciones
             int op = JOptionPane.showOptionDialog(null, //posicion en patalla
-                "No se guardo la ultima modificacion ¿Desea salir sin Guardar?", // mesaje principal
-                "Confirmacion", // rotulo ventana
-                JOptionPane.INFORMATION_MESSAGE, // tipo de opcion
-                JOptionPane.YES_NO_OPTION, // cantida opciones (yes, yes no, yes no cancel)
-                null, opciones, opciones[1]);         // carga el texto de las opciones
+                    "No se guardo la ultima modificacion ¿Desea salir sin Guardar?", // mesaje principal
+                    "Confirmacion", // rotulo ventana
+                    JOptionPane.INFORMATION_MESSAGE, // tipo de opcion
+                    JOptionPane.YES_NO_OPTION, // cantida opciones (yes, yes no, yes no cancel)
+                    null, opciones, opciones[1]);         // carga el texto de las opciones
             if (op == JOptionPane.YES_OPTION) {
                 salir = false;
                 dispose();        // cierra la pantalla
@@ -228,21 +229,23 @@ public class notas extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(notas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Notas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(notas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Notas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(notas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Notas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(notas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Notas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                notas dialog = new notas(new javax.swing.JFrame(), true);
+                Notas dialog = new Notas(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -263,7 +266,7 @@ public class notas extends javax.swing.JDialog {
     private javax.swing.JTable jtMaterias;
     // End of variables declaration//GEN-END:variables
 private void cargarCombo() {
-        for (Alumno aluCombo : principal.controlAlu.listarAlumnos()) {
+        for (Alumno aluCombo : Principal.controlAlu.listarAlumnos()) {
             jcbAlumnos.addItem(aluCombo);
         }
     }
@@ -284,7 +287,7 @@ private void cargarCombo() {
 
     private void mostrarMaterias(Alumno buscado) {
         limpiarTabla();
-        for (Inscripcion inscripcion : principal.controlInsc.obtenerInscripcionesPorAlumno(buscado.getId())) {
+        for (Inscripcion inscripcion : Principal.controlInsc.obtenerInscripcionesPorAlumno(buscado.getId())) {
             modelo.addRow(new Object[]{inscripcion.getMateria().getId(), inscripcion.getMateria().getNombre(), inscripcion.getNota()});
         }
     }

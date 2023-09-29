@@ -1,25 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
-package Vistas;
+package bonito;
 
 import Entidades.*;
 import javax.swing.table.DefaultTableModel;
 
-/**
- * @author fernando
- */
-public class InscripcionesForm extends javax.swing.JInternalFrame {
+public class InscripcionesForm extends javax.swing.JDialog {
 
-    private DefaultTableModel modelo = new DefaultTableModel() {
-        public boolean isCellEditable(int f, int c) {
-            return false;
-        }
-    };
+    /**
+     * Creates new form InscripcionesForm
+     */
     private Alumno seleccionado;
-
-    public InscripcionesForm() {
+    public InscripcionesForm(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         setTitle("Inscripciones");
         initComponents();
         cargarCombo();
@@ -27,6 +18,11 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
         jbInscribir.setEnabled(false);
         jbAnularInscripcion.setEnabled(false);
     }
+    private DefaultTableModel modelo = new DefaultTableModel() {
+        public boolean isCellEditable(int f, int c) {
+            return false;
+        }
+    };
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,8 +33,6 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jcbAlumnos = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtMaterias = new javax.swing.JTable();
@@ -48,20 +42,10 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
         jbInscribir = new javax.swing.JButton();
         jbAnularInscripcion = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
+        jcbAlumnos = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(153, 255, 153));
-        setMaximumSize(new java.awt.Dimension(440, 400));
-        setMinimumSize(new java.awt.Dimension(440, 400));
-        setName(""); // NOI18N
-        setPreferredSize(new java.awt.Dimension(440, 400));
-
-        jcbAlumnos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbAlumnosActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Alumno:");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jtMaterias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -110,6 +94,14 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
                 jbSalirActionPerformed(evt);
             }
         });
+
+        jcbAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbAlumnosActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Alumno:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -176,23 +168,7 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
         jrbNoInscriptas.setSelected(false);
         int id = seleccionado.getId();
         listarCursadas(id);
-
     }//GEN-LAST:event_jrbInscriptasActionPerformed
-
-    private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
-        dispose();
-    }//GEN-LAST:event_jbSalirActionPerformed
-
-    private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
-
-        seleccionado = (Alumno) jcbAlumnos.getSelectedItem();
-        limpiarTabla();    
-        if (jrbInscriptas.isSelected()) {
-            listarCursadas(seleccionado.getId());
-        }else if(jrbNoInscriptas.isSelected()){
-            listarNoCursadas(seleccionado.getId());
-        }
-    }//GEN-LAST:event_jcbAlumnosActionPerformed
 
     private void jrbNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbNoInscriptasActionPerformed
         limpiarTabla();
@@ -200,7 +176,6 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
         jrbInscriptas.setSelected(false);
         int id = seleccionado.getId();
         listarNoCursadas(id);
-
     }//GEN-LAST:event_jrbNoInscriptasActionPerformed
 
     private void jbInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInscribirActionPerformed
@@ -214,7 +189,6 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
             int id = seleccionado.getId();
             listarNoCursadas(id);
         }
-
     }//GEN-LAST:event_jbInscribirActionPerformed
 
     private void jbAnularInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAnularInscripcionActionPerformed
@@ -230,6 +204,62 @@ public class InscripcionesForm extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jbAnularInscripcionActionPerformed
 
+    private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_jbSalirActionPerformed
+
+    private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
+
+        seleccionado = (Alumno) jcbAlumnos.getSelectedItem();
+        limpiarTabla();
+        if (jrbInscriptas.isSelected()) {
+            listarCursadas(seleccionado.getId());
+        } else if (jrbNoInscriptas.isSelected()) {
+            listarNoCursadas(seleccionado.getId());
+        }
+    }//GEN-LAST:event_jcbAlumnosActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(InscripcionesForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(InscripcionesForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(InscripcionesForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(InscripcionesForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                InscripcionesForm dialog = new InscripcionesForm(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

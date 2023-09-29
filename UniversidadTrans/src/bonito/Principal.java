@@ -11,17 +11,18 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import org.netbeans.lib.awtextra.*;
+
 /**
  *
  * @author fernando
  */
-public class principal extends javax.swing.JFrame {
+public class Principal extends javax.swing.JFrame {
 
     public static AlumnoData controlAlu = new AlumnoData();
     public static MateriaData controlMat = new MateriaData();
     public static InscripcionData controlInsc = new InscripcionData();
 
-    public principal() {
+    public Principal() {
         initComponents();
     }
 
@@ -37,18 +38,12 @@ public class principal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         logo = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        bAlumnos = new javax.swing.JPanel();
-        jlAlumno = new javax.swing.JLabel();
-        bMaterias = new javax.swing.JPanel();
-        jlMateria = new javax.swing.JLabel();
-        bGInscripciones1 = new javax.swing.JPanel();
-        jlInscripcion = new javax.swing.JLabel();
-        bGNotas1 = new javax.swing.JPanel();
-        jlNota = new javax.swing.JLabel();
-        bCalumnosXmateria = new javax.swing.JPanel();
-        jlListarA = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        bSalir = new javax.swing.JPanel();
+        jlInscripcion = new javax.swing.JLabel();
+        jlNota = new javax.swing.JLabel();
+        jlAlumno = new javax.swing.JLabel();
+        jlMateria = new javax.swing.JLabel();
+        jlListarA = new javax.swing.JLabel();
         jlSalir = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -60,68 +55,9 @@ public class principal extends javax.swing.JFrame {
 
         logo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ulpBanner.png"))); // NOI18N
-        jPanel1.add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 200));
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 400, 10));
-
-        bAlumnos.setBackground(new java.awt.Color(2, 64, 125));
-        bAlumnos.setForeground(new java.awt.Color(243, 162, 11));
-
-        jlAlumno.setFont(new java.awt.Font("Pagul", 1, 24)); // NOI18N
-        jlAlumno.setForeground(new java.awt.Color(255, 255, 255));
-        jlAlumno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlAlumno.setText("ALUMNO");
-        jlAlumno.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jlAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jlAlumnoMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jlAlumnoMouseExited(evt);
-            }
-        });
-
-        javax.swing.GroupLayout bAlumnosLayout = new javax.swing.GroupLayout(bAlumnos);
-        bAlumnos.setLayout(bAlumnosLayout);
-        bAlumnosLayout.setHorizontalGroup(
-            bAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-        );
-        bAlumnosLayout.setVerticalGroup(
-            bAlumnosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlAlumno, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(bAlumnos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 170, 50));
-
-        bMaterias.setBackground(new java.awt.Color(2, 64, 125));
-
-        jlMateria.setFont(new java.awt.Font("Pagul", 1, 24)); // NOI18N
-        jlMateria.setForeground(new java.awt.Color(255, 255, 255));
-        jlMateria.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlMateria.setText("MATERIA");
-        jlMateria.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jlMateriaMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jlMateriaMouseExited(evt);
-            }
-        });
-
-        javax.swing.GroupLayout bMateriasLayout = new javax.swing.GroupLayout(bMaterias);
-        bMaterias.setLayout(bMateriasLayout);
-        bMateriasLayout.setHorizontalGroup(
-            bMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlMateria, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-        );
-        bMateriasLayout.setVerticalGroup(
-            bMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlMateria, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(bMaterias, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 170, 50));
-
-        bGInscripciones1.setBackground(new java.awt.Color(2, 64, 125));
+        jPanel1.add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 150));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 400, 10));
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 400, 10));
 
         jlInscripcion.setFont(new java.awt.Font("Pagul", 1, 20)); // NOI18N
         jlInscripcion.setForeground(new java.awt.Color(255, 255, 255));
@@ -129,6 +65,9 @@ public class principal extends javax.swing.JFrame {
         jlInscripcion.setText("INSCRIPCIONES");
         jlInscripcion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jlInscripcion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlInscripcionMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jlInscripcionMouseEntered(evt);
             }
@@ -136,21 +75,7 @@ public class principal extends javax.swing.JFrame {
                 jlInscripcionMouseExited(evt);
             }
         });
-
-        javax.swing.GroupLayout bGInscripciones1Layout = new javax.swing.GroupLayout(bGInscripciones1);
-        bGInscripciones1.setLayout(bGInscripciones1Layout);
-        bGInscripciones1Layout.setHorizontalGroup(
-            bGInscripciones1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlInscripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-        );
-        bGInscripciones1Layout.setVerticalGroup(
-            bGInscripciones1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlInscripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(bGInscripciones1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
-
-        bGNotas1.setBackground(new java.awt.Color(2, 64, 125));
+        jPanel1.add(jlInscripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 171, 46));
 
         jlNota.setFont(new java.awt.Font("Pagul", 1, 20)); // NOI18N
         jlNota.setForeground(new java.awt.Color(255, 255, 255));
@@ -167,27 +92,51 @@ public class principal extends javax.swing.JFrame {
                 jlNotaMouseExited(evt);
             }
         });
+        jPanel1.add(jlNota, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 170, 50));
 
-        javax.swing.GroupLayout bGNotas1Layout = new javax.swing.GroupLayout(bGNotas1);
-        bGNotas1.setLayout(bGNotas1Layout);
-        bGNotas1Layout.setHorizontalGroup(
-            bGNotas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlNota, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-        );
-        bGNotas1Layout.setVerticalGroup(
-            bGNotas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlNota, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-        );
+        jlAlumno.setFont(new java.awt.Font("Pagul", 1, 24)); // NOI18N
+        jlAlumno.setForeground(new java.awt.Color(255, 255, 255));
+        jlAlumno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlAlumno.setText("ALUMNO");
+        jlAlumno.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jlAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlAlumnoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jlAlumnoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jlAlumnoMouseExited(evt);
+            }
+        });
+        jPanel1.add(jlAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 170, 50));
 
-        jPanel1.add(bGNotas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 170, 50));
-
-        bCalumnosXmateria.setBackground(new java.awt.Color(2, 64, 125));
+        jlMateria.setFont(new java.awt.Font("Pagul", 1, 24)); // NOI18N
+        jlMateria.setForeground(new java.awt.Color(255, 255, 255));
+        jlMateria.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlMateria.setText("MATERIA");
+        jlMateria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlMateriaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jlMateriaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jlMateriaMouseExited(evt);
+            }
+        });
+        jPanel1.add(jlMateria, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 170, 50));
 
         jlListarA.setFont(new java.awt.Font("Pagul", 1, 20)); // NOI18N
         jlListarA.setForeground(new java.awt.Color(255, 255, 255));
         jlListarA.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlListarA.setText("LISTAR ALUMNOS");
         jlListarA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlListarAMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jlListarAMouseEntered(evt);
             }
@@ -195,22 +144,7 @@ public class principal extends javax.swing.JFrame {
                 jlListarAMouseExited(evt);
             }
         });
-
-        javax.swing.GroupLayout bCalumnosXmateriaLayout = new javax.swing.GroupLayout(bCalumnosXmateria);
-        bCalumnosXmateria.setLayout(bCalumnosXmateriaLayout);
-        bCalumnosXmateriaLayout.setHorizontalGroup(
-            bCalumnosXmateriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlListarA, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-        );
-        bCalumnosXmateriaLayout.setVerticalGroup(
-            bCalumnosXmateriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlListarA, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(bCalumnosXmateria, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 380, 50));
-        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 193, 400, 10));
-
-        bSalir.setBackground(new java.awt.Color(2, 64, 125));
+        jPanel1.add(jlListarA, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 380, 50));
 
         jlSalir.setFont(new java.awt.Font("Pagul", 1, 24)); // NOI18N
         jlSalir.setForeground(new java.awt.Color(255, 255, 255));
@@ -227,19 +161,7 @@ public class principal extends javax.swing.JFrame {
                 jlSalirMouseExited(evt);
             }
         });
-
-        javax.swing.GroupLayout bSalirLayout = new javax.swing.GroupLayout(bSalir);
-        bSalir.setLayout(bSalirLayout);
-        bSalirLayout.setHorizontalGroup(
-            bSalirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-        );
-        bSalirLayout.setVerticalGroup(
-            bSalirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(bSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 440, 170, 50));
+        jPanel1.add(jlSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 420, 170, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -304,27 +226,47 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jlSalirMouseExited
 
     private void jlNotaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlNotaMouseClicked
-      notas nota = new notas(this, rootPaneCheckingEnabled);
-      nota.setVisible(true);
-      
+        Notas nota = new Notas(this, rootPaneCheckingEnabled);
+        nota.setVisible(true);
+
     }//GEN-LAST:event_jlNotaMouseClicked
 
     private void jlSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlSalirMouseClicked
-     Object[] opciones = {"SI", "NO"};
-     ImageIcon advertencia = new ImageIcon("/imagenes/advertencia.png");
+        Object[] opciones = {"SI", "NO"};
+        ImageIcon advertencia = new ImageIcon("/imagenes/advertencia.png");
         int opcion = JOptionPane.showOptionDialog(null,
-            "¿Desea salir del sistema?",
-            "Confirmacion",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.YES_NO_OPTION,
-            advertencia, opciones, opciones[1]);
-                        
-            if (opcion == JOptionPane.YES_OPTION) {
-                dispose();
-            } else if (opcion == JOptionPane.NO_OPTION) {
-          
-            }        
+                "¿Desea salir del sistema?",
+                "Confirmacion",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.YES_NO_OPTION,
+                advertencia, opciones, opciones[1]);
+
+        if (opcion == JOptionPane.YES_OPTION) {
+            dispose();
+        } else if (opcion == JOptionPane.NO_OPTION) {
+
+        }
     }//GEN-LAST:event_jlSalirMouseClicked
+
+    private void jlAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlAlumnoMouseClicked
+        GestionAlumnos alu = new GestionAlumnos(null, rootPaneCheckingEnabled);
+        alu.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_jlAlumnoMouseClicked
+
+    private void jlMateriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlMateriaMouseClicked
+        GestionMaterias mate = new GestionMaterias(null, rootPaneCheckingEnabled);
+        mate.setVisible(true);
+    }//GEN-LAST:event_jlMateriaMouseClicked
+
+    private void jlInscripcionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlInscripcionMouseClicked
+        InscripcionesForm insc = new InscripcionesForm(null, rootPaneCheckingEnabled);
+        insc.setVisible(true);
+    }//GEN-LAST:event_jlInscripcionMouseClicked
+
+    private void jlListarAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlListarAMouseClicked
+      ConsultaAlumnMate consultAlumno = new ConsultaAlumnMate(null, rootPaneCheckingEnabled);
+      consultAlumno.setVisible(true);
+    }//GEN-LAST:event_jlListarAMouseClicked
 
     /**
      * @param args the command line arguments
@@ -343,31 +285,26 @@ public class principal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new principal().setVisible(true);
+                new Principal().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel bAlumnos;
-    private javax.swing.JPanel bCalumnosXmateria;
-    private javax.swing.JPanel bGInscripciones1;
-    private javax.swing.JPanel bGNotas1;
-    private javax.swing.JPanel bMaterias;
-    private javax.swing.JPanel bSalir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

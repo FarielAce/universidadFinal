@@ -1,7 +1,7 @@
 
 package universidadtrans;
 
-import Vistas.Principal;
+import bonito.Principal;
 
 
 /**
