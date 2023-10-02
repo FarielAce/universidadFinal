@@ -226,7 +226,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jlSalirMouseExited
 
     private void jlNotaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlNotaMouseClicked
-        Notas nota = new Notas(this, rootPaneCheckingEnabled);
+        Notas nota = new Notas(null, rootPaneCheckingEnabled);
         nota.setVisible(true);
 
     }//GEN-LAST:event_jlNotaMouseClicked
